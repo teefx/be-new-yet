@@ -7,35 +7,9 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import imgHeroBg from "../../imports/MacBookPro141/WhatsApp Image 2026-05-12 at 7.28.11 PM.jpeg";
-
-function PageHeader({ onHome }: { onHome: () => void }) {
-  return (
-    <header className="absolute top-0 left-0 right-0 z-20">
-      <div className="max-w-[1280px] mx-auto px-6 md:px-[44px] py-[24px] flex items-center justify-between">
-        <button
-          onClick={onHome}
-          className="font-['Anton',sans-serif] text-white text-[24px] uppercase tracking-[1px]"
-        >
-          BE-<span className="text-[#ab00e4]">NEW</span>
-        </button>
-        <nav className="flex items-center gap-4 md:gap-[28px]">
-          <button
-            onClick={onHome}
-            className="font-['Nunito_Sans',sans-serif] font-black text-white text-[11px] tracking-[3px] uppercase hover:text-[#ab00e4] transition-colors"
-          >
-            Home
-          </button>
-          <a
-            href="/conference"
-            className="inline-flex items-center justify-center px-[18px] h-[40px] rounded-full border border-white text-white font-['Nunito_Sans',sans-serif] font-black text-[11px] tracking-[3px] uppercase hover:bg-white hover:text-[#21002c] transition-colors"
-          >
-            Conference
-          </a>
-        </nav>
-      </div>
-    </header>
-  );
-}
+import Footer from "./Footer";
+import NavBar from "./NavBar";
+import { LiquidButton } from "./ui/liquid-button";
 
 export default function GivePage({ onHome }: { onHome: () => void }) {
   const [copied, setCopied] = useState(false);
@@ -48,7 +22,7 @@ export default function GivePage({ onHome }: { onHome: () => void }) {
 
   return (
     <div className="bg-[#21002c] min-h-screen w-full font-['Nunito_Sans',sans-serif]">
-      <PageHeader onHome={onHome} />
+      <NavBar />
 
       {/* Hero Section */}
       <section className="relative pt-[140px] pb-[80px] md:pt-[180px] md:pb-[120px] px-6 md:px-[44px] text-center overflow-hidden">
@@ -160,17 +134,25 @@ export default function GivePage({ onHome }: { onHome: () => void }) {
                 <div className="inline-flex items-center gap-[8px] bg-amber-100 text-amber-800 px-[14px] py-[6px] rounded-full font-bold text-[11px] tracking-[1px] uppercase">
                   Currently Disabled
                 </div>
-                <button
+                <LiquidButton
                   disabled
-                  className="w-full inline-flex items-center justify-center px-[32px] h-[56px] rounded-full bg-[#21002c]/5 text-[#21002c]/40 font-black text-[12px] tracking-[3px] uppercase cursor-not-allowed border border-transparent"
+                  className="w-full inline-flex items-center justify-center px-[32px] h-[56px] rounded-full bg-[#21002c]/5 text-[#21002c]/40 font-black text-[12px] tracking-[3px] uppercase cursor-not-allowed border border-transparent transition-colors"
+                  style={
+                    {
+                      "--liquid-button-background-color": "#ab00e4",
+                      "--liquid-button-color": "white",
+                    } as React.CSSProperties
+                  }
                 >
                   Give via Paystack
-                </button>
+                </LiquidButton>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }

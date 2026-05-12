@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { projectId, publicAnonKey } from "../../../utils/supabase/info";
+import { LiquidButton } from "./ui/liquid-button";
 
 const API_BASE = `https://${projectId}.supabase.co/functions/v1/make-server-81f6db4e`;
 
@@ -141,7 +142,13 @@ export default function AdminPage({ onHome }: { onHome: () => void }) {
             <button
               onClick={load}
               disabled={busy || !password}
-              className="w-full h-[48px] rounded-full bg-[#ab00e4] text-white font-['Lato:Black',sans-serif] text-[12px] tracking-[3px] uppercase hover:bg-[#21002c] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="btn-liquid w-full h-[48px] rounded-full bg-[#ab00e4] text-white font-['Lato:Black',sans-serif] text-[12px] tracking-[3px] uppercase transition-colors disabled:opacity-60 disabled:cursor-not-allowed border border-transparent"
+              style={
+                {
+                  "--liquid-bg": "#21002c",
+                  "--liquid-text": "white",
+                } as React.CSSProperties
+              }
             >
               {busy ? "Loading…" : "Sign In"}
             </button>
@@ -156,19 +163,31 @@ export default function AdminPage({ onHome }: { onHome: () => void }) {
                 {paidCount} Paid
               </div>
               <div className="flex-1" />
-              <button
+              <LiquidButton
                 onClick={load}
-                className="font-['Lato:Black',sans-serif] text-white/70 hover:text-white text-[11px] tracking-[3px] uppercase"
+                className="px-[16px] py-[8px] rounded-full bg-white/5 font-['Lato:Black',sans-serif] text-white/90 text-[11px] tracking-[3px] uppercase transition-colors border border-transparent"
+                style={
+                  {
+                    "--liquid-button-background-color": "white",
+                    "--liquid-button-color": "#21002c",
+                  } as React.CSSProperties
+                }
               >
                 Refresh
-              </button>
-              <button
+              </LiquidButton>
+              <LiquidButton
                 onClick={() => downloadCsv(rows)}
                 disabled={rows.length === 0}
-                className="inline-flex items-center justify-center px-[20px] h-[42px] rounded-full bg-white text-[#21002c] font-['Lato:Black',sans-serif] text-[11px] tracking-[3px] uppercase hover:bg-[#ab00e4] hover:text-white transition-colors disabled:opacity-60"
+                className="inline-flex items-center justify-center px-[20px] h-[42px] rounded-full bg-white text-[#21002c] font-['Lato:Black',sans-serif] text-[11px] tracking-[3px] uppercase transition-colors disabled:opacity-60 border border-transparent"
+                style={
+                  {
+                    "--liquid-button-background-color": "#ab00e4",
+                    "--liquid-button-color": "white",
+                  } as React.CSSProperties
+                }
               >
                 Export CSV
-              </button>
+              </LiquidButton>
             </div>
 
             <div className="bg-white rounded-[16px] overflow-hidden">

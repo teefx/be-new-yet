@@ -1,45 +1,59 @@
-import {
-  ArrowRight,
-  Facebook,
-  Instagram,
-  Youtube,
-  Twitter,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import svgPaths from "../../imports/MacBookPro141/svg-z58yzuf3b1";
 import imgRectangle4 from "../../imports/MacBookPro141/d912afb5da028e411c22b6fc588d565d6e9ba119.png";
 import imgNigeria from "../../imports/MacBookPro141/fcf5ca6b02f39689b105813274c3af7e510da4a2.png";
+import imgIbadan from "../../imports/MacBookPro141/IBADAN.png";
 import imgCanada from "../../imports/MacBookPro141/f304d10120d6af1bc128a3140c2d56bece712a49.png";
 import imgUnitedKingdom from "../../imports/MacBookPro141/f2e110f266ae55b6643b06576c4038a845f4bee1.png";
+import imgEkiti from "../../imports/MacBookPro141/EKITI IMAGE.jpg";
 import imgUnitedStates from "../../imports/MacBookPro141/c96e1733d2bf6263e84de35f656b6401fd338eae.png";
 import imgImage from "../../imports/MacBookPro141/1c9e3b278bf53a64e50e8eec3812223ca4fb6ee3.png";
 import imgNigeria1 from "../../imports/MacBookPro141/c2ad4781e07aa8f4bcdca45c0a15be6eab6efbdb.png";
 import imgUnitedKingdom1 from "../../imports/MacBookPro141/e07abab2d452ff422d9c764e91ab3fcbb6dd6a2b.png";
 import imgBnLogo1 from "../../imports/MacBookPro141/96ea11a6defa3aeac356a056e4c25b4113d2ebc2.png";
 import imgLink from "../../imports/MacBookPro141/dab0476d08487993b46337d657a61aeccfbcb5af.png";
-import imgLink1 from "../../imports/MacBookPro141/64fb916a7e857129cee514c5f4fcdb7891d5b193.png";
-import imgLink2 from "../../imports/MacBookPro141/7fa570592bf36b931a2cf40c1cfc71cb6d9ea8ab.png";
+import imgWorship from "../../imports/MacBookPro141/worship-centre.jpeg";
+import imgWhatsApp from "../../imports/MacBookPro141/whatapp-comunity.jpeg";
 import imgBackground from "../../imports/MacBookPro141/f1ede4d8d84f1840d01be9a82448ce9c88471375.png";
 import imgPastor from "../../imports/MacBookPro141/1426f8b56554520db4ce802ab2d43509d566e039.png";
 import imgImage1 from "../../imports/MacBookPro141/2990c152ea964ffa3f23bee8cc86696b48fb183f.png";
 import imgSection from "../../imports/MacBookPro141/2a2caa86575917fffd64444335eb41da67ab432c.png";
 import imgHeroBg from "../../imports/MacBookPro141/WhatsApp Image 2026-05-12 at 7.28.11 PM.jpeg";
+import Footer from "./Footer";
+import NavBar from "./NavBar";
+import { LiquidButton } from "./ui/liquid-button";
+import { createPortal } from "react-dom";
 
-const campuses = [
-  { img: imgNigeria, city: "Ibadan", detail: "23 campuses" },
-  { img: imgCanada, city: "Lagos", detail: "7 campuses" },
-  { img: imgUnitedKingdom, city: "Ekiti", detail: "8 campuses" },
-  { img: imgUnitedStates, city: "United States", detail: "4 campuses" },
+const worshipCentres = [
+  { img: imgIbadan, city: "Ibadan", detail: "23 centres" },
+  { img: imgNigeria, city: "Lagos", detail: "7 centres" },
+  { img: imgEkiti, city: "Ekiti", detail: "8 centres" },
+  { img: imgUnitedStates, city: "United States", detail: "4 centres" },
   { img: imgImage, city: "", detail: "" },
 ];
 
 const welcomeCards = [
-  { img: imgLink, subtitle: "WHO WE ARE", title: "About us" },
-  { img: imgLink1, subtitle: "JOIN OUR COMMUNITY", title: "Connect with us" },
   {
-    img: imgLink2,
+    img: imgLink,
+    subtitle: "WHO WE ARE",
+    title: "About us",
+    cta: "LEARN MORE",
+    link: "#about",
+  },
+  {
+    img: imgWorship,
+    subtitle: "JOIN OUR COMMUNITY",
+    title: "Worship With Us",
+    description: "Find the nearest worship centre to you.",
+    cta: "LOCATE A CENTRE",
+    link: "/worship-centres",
+  },
+  {
+    img: imgWhatsApp,
     subtitle: "JOIN WHATSAPP COMMUNITY",
     title: "WhatsApp Community",
     link: "https://chat.whatsapp.com/your-invite-link", // Replace with actual WhatsApp link
+    cta: "LEARN MORE",
   },
 ];
 
@@ -53,71 +67,7 @@ const beliefs = [
 export default function HomePage() {
   return (
     <div className="w-full min-h-screen bg-[#21002c] font-['Nunito_Sans',sans-serif]">
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-        .btn-liquid {
-          position: relative;
-          overflow: hidden;
-          z-index: 1;
-          transition: color 0.4s ease;
-        }
-        .btn-liquid::before {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 50%;
-          width: 300%;
-          height: 300%;
-          background-color: var(--liquid-bg, white);
-          border-radius: 45%;
-          z-index: -1;
-          transform: translate(-50%, 100%) rotate(0deg);
-          transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .btn-liquid:hover::before {
-          transform: translate(-50%, -10%) rotate(180deg);
-        }
-        .btn-liquid:hover {
-          color: var(--liquid-text, black) !important;
-        }
-      `,
-        }}
-      />
-
-      {/* Header */}
-      <header className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-6 md:px-[44px] bg-[#0f0014]/90 backdrop-blur-sm">
-        <div className="flex items-center gap-4">
-          <img src={imgBnLogo1} alt="Logo" className="w-10 object-contain" />
-          <div className="font-['Anton',sans-serif] text-white text-[14px] md:text-[20px] leading-tight uppercase">
-            <p>BE-NEW IN CHRIST EVANGELICAL CHURCH</p>
-            <p className="text-[#ab00e4] mt-1">YOUTH EVANGELICAL TEAM (YET)</p>
-          </div>
-        </div>
-        <nav className="hidden lg:flex items-center gap-6 font-['Nunito_Sans',sans-serif] font-bold text-[10px] text-white/70 tracking-[3px] uppercase">
-          {[
-            "About",
-            "Quick Links",
-            "Campuses",
-            "Cell Church",
-            "Sermons",
-            "Map",
-            "Give",
-          ].map((link) => (
-            <a
-              key={link}
-              href={
-                link === "Give"
-                  ? "/give"
-                  : `#${link.toLowerCase().replace(" ", "-")}`
-              }
-              className="hover:text-white transition-colors"
-            >
-              {link}
-            </a>
-          ))}
-        </nav>
-      </header>
+      <NavBar />
 
       {/* Hero */}
       <section className="relative min-h-[100vh] bg-[#21002c] flex flex-col items-center justify-center pt-24 px-6 text-center overflow-hidden">
@@ -135,28 +85,29 @@ export default function HomePage() {
             <span className="text-[#ab00e4]">Built for Purpose.</span>
           </h1>
           <div className="mt-12 flex flex-col sm:flex-row gap-4">
-            <button
-              className="btn-liquid bg-white text-black font-['Nunito_Sans',sans-serif] font-black px-8 py-[14px] rounded-full text-[12px] tracking-[3px] uppercase transition"
+            <LiquidButton
+              className="bg-white text-black font-['Nunito_Sans',sans-serif] font-black px-8 py-[14px] rounded-full text-[12px] tracking-[3px] uppercase transition"
               style={
                 {
-                  "--liquid-bg": "#e5e7eb",
-                  "--liquid-text": "black",
+                  "--liquid-button-background-color": "#e5e7eb",
+                  "--liquid-button-color": "black",
                 } as React.CSSProperties
               }
             >
               Watch Live
-            </button>
-            <button
-              className="btn-liquid border border-white text-white font-['Nunito_Sans',sans-serif] font-black px-8 py-[14px] rounded-full text-[12px] tracking-[3px] uppercase transition"
+            </LiquidButton>
+            <LiquidButton
+              onClick={() => (window.location.href = "/conference")}
+              className="border border-white text-white font-['Nunito_Sans',sans-serif] font-black px-8 py-[14px] rounded-full text-[12px] tracking-[3px] uppercase transition"
               style={
                 {
-                  "--liquid-bg": "white",
-                  "--liquid-text": "#21002c",
+                  "--liquid-button-background-color": "white",
+                  "--liquid-button-color": "#21002c",
                 } as React.CSSProperties
               }
             >
               Register for Conference
-            </button>
+            </LiquidButton>
           </div>
         </div>
       </section>
@@ -181,17 +132,17 @@ export default function HomePage() {
                 More Than Events. <br />
                 <span className="text-[#ab00e4]">Real Encounters.</span>
               </h2>
-              <button
-                className="btn-liquid border border-[#ab00e4] text-[#ab00e4] px-[28px] py-[14px] rounded-full font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[2px] uppercase transition-colors mt-[8px]"
+              <LiquidButton
+                className="border border-[#ab00e4] text-[#ab00e4] px-[28px] py-[14px] rounded-full font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[2px] uppercase transition-colors mt-[8px]"
                 style={
                   {
-                    "--liquid-bg": "#ab00e4",
-                    "--liquid-text": "white",
+                    "--liquid-button-background-color": "#ab00e4",
+                    "--liquid-button-color": "white",
                   } as React.CSSProperties
                 }
               >
                 See All Events
-              </button>
+              </LiquidButton>
             </div>
 
             <div className="flex flex-col md:flex-row shadow-[0_20px_60px_rgba(0,0,0,0.1)] rounded-[24px] overflow-hidden w-full lg:w-auto">
@@ -226,9 +177,17 @@ export default function HomePage() {
       <section className="bg-white py-[80px] md:py-[120px] px-6">
         <div className="max-w-[1280px] mx-auto">
           <div className="flex flex-col justify-between items-start gap-8 mb-[56px]">
-            <button className="bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-bold px-[20px] py-[10px] rounded-full text-[16px] tracking-[4px] uppercase">
+            <LiquidButton
+              className="bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-bold px-[20px] py-[10px] rounded-full text-[16px] tracking-[4px] uppercase transition-colors border border-transparent"
+              style={
+                {
+                  "--liquid-button-background-color": "#21002c",
+                  "--liquid-button-color": "white",
+                } as React.CSSProperties
+              }
+            >
               Building Project
-            </button>
+            </LiquidButton>
             <h2 className="font-['Anton',sans-serif] text-[#21002c] text-[48px] md:text-[60px] uppercase leading-none mt-[24px] mb-[16px]">
               Welcome Home!
             </h2>
@@ -243,7 +202,12 @@ export default function HomePage() {
             {welcomeCards.map((c, i) => {
               const CardWrapper = c.link ? "a" : "div";
               const wrapperProps = c.link
-                ? { href: c.link, target: "_blank", rel: "noopener noreferrer" }
+                ? {
+                    href: c.link,
+                    ...(c.link.startsWith("http")
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {}),
+                  }
                 : {};
 
               return (
@@ -262,13 +226,20 @@ export default function HomePage() {
                     <p className="font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase opacity-90 mb-[4px]">
                       {c.subtitle}
                     </p>
-                    <h3 className="font-['Nunito_Sans',sans-serif] font-bold text-[28px]">
+                    <h3 className="font-['Nunito_Sans',sans-serif] font-bold text-[28px] leading-[1.2]">
                       {c.title}
                     </h3>
+                    {c.description && (
+                      <p className="font-['Nunito_Sans',sans-serif] text-[15px] opacity-80 mt-[8px] max-w-[260px] leading-snug">
+                        {c.description}
+                      </p>
+                    )}
                   </div>
-                  <div className="absolute bottom-[16px] left-[16px] flex items-center gap-[8px] text-white font-['Nunito_Sans',sans-serif] font-black text-[10px] tracking-[2px] uppercase">
-                    {i === 1 ? "SIGN UP" : "LEARN MORE"}{" "}
-                    <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
+                  <div className="absolute bottom-[16px] left-[16px] text-white font-['Nunito_Sans',sans-serif] font-black text-[10px] tracking-[2px] uppercase">
+                    {c.cta}
+                  </div>
+                  <div className="absolute top-[24px] right-[24px] text-white">
+                    <ArrowRight className="w-6 h-6 -rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                   </div>
                 </CardWrapper>
               );
@@ -297,17 +268,17 @@ export default function HomePage() {
               gospel, influence culture positively, and carry the love of God
               everywhere they go.
             </p>
-            <button
-              className="btn-liquid bg-[#ab00e4] text-white flex items-center gap-[10px] px-[21px] py-[11px] rounded-full font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors"
+            <LiquidButton
+              className="bg-[#ab00e4] text-white flex items-center gap-[10px] px-[21px] py-[11px] rounded-full font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors"
               style={
                 {
-                  "--liquid-bg": "white",
-                  "--liquid-text": "#ab00e4",
+                  "--liquid-button-background-color": "white",
+                  "--liquid-button-color": "#ab00e4",
                 } as React.CSSProperties
               }
             >
               Learn More <ArrowRight className="w-4 h-4" />
-            </button>
+            </LiquidButton>
           </div>
 
           <div className="w-full lg:w-1/2 bg-white rounded-[24px] p-8 md:p-[60px] relative overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.5)]">
@@ -343,7 +314,7 @@ export default function HomePage() {
       <section className="bg-[#040005] py-[80px] md:py-[120px] px-6 overflow-hidden">
         <div className="max-w-[1280px] mx-auto text-center flex flex-col items-center">
           <div className="bg-[#1f1f1f] inline-flex items-center gap-[6px] px-[12px] py-[6px] rounded-full text-white font-['Nunito_Sans',sans-serif] text-[10px] tracking-[2px] uppercase mb-[24px]">
-            <span>🌍</span> OVER 40 CAMPUSES GLOBALLY
+            <span>🌍</span> OVER 40 WORSHIP CENTRES GLOBALLY
           </div>
           <h2 className="font-['Anton',sans-serif] text-[36px] md:text-[46px] text-white uppercase leading-[1.2] mb-6 max-w-3xl">
             Building young people in Christ, through Christ,{" "}
@@ -352,47 +323,55 @@ export default function HomePage() {
           <p className="font-['Nunito_Sans',sans-serif] text-white/80 text-[20px] mb-8">
             Find your place in the family.
           </p>
-          <button
-            className="btn-liquid border border-white text-white px-[17px] py-[11px] rounded-[20px] font-['Nunito_Sans',sans-serif] font-black text-[10px] tracking-[2px] uppercase transition-colors mb-16"
+          <LiquidButton
+            onClick={() => (window.location.href = "/worship-centres")}
+            className="inline-flex border border-white text-white px-[17px] py-[11px] rounded-[20px] font-['Nunito_Sans',sans-serif] font-black text-[10px] tracking-[2px] uppercase transition-colors mb-16"
             style={
               {
-                "--liquid-bg": "white",
-                "--liquid-text": "#040005",
+                "--liquid-button-background-color": "white",
+                "--liquid-button-color": "#040005",
               } as React.CSSProperties
             }
           >
-            See All Campuses
-          </button>
+            See All Worship Centres
+          </LiquidButton>
 
-          <div className="w-full flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 hide-scrollbar">
-            {campuses.map((c, i) => (
-              <div
-                key={i}
-                className="min-w-[240px] md:min-w-[260px] h-[360px] relative rounded-[20px] overflow-hidden shrink-0 group cursor-pointer snap-center"
-              >
-                {c.img && (
-                  <img
-                    src={c.img}
-                    alt={c.city}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                )}
-                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors" />
-                {c.city && (
-                  <div className="absolute bottom-[16px] left-[16px] text-left">
-                    <h3 className="font-['Nunito_Sans',sans-serif] font-bold text-[24px] text-white mb-[4px]">
-                      {c.city}
-                    </h3>
-                    <p className="font-['Nunito_Sans',sans-serif] text-white/60 text-[16px]">
-                      {c.detail}
-                    </p>
-                    <div className="absolute top-[16px] right-[16px] opacity-0 group-hover:opacity-100 transition-opacity">
-                      <ArrowRight className="w-6 h-6 text-white -rotate-45" />
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
+          <div className="w-full flex overflow-x-auto lg:overflow-visible lg:flex-wrap lg:justify-center snap-x lg:snap-none snap-mandatory gap-6 pb-8 hide-scrollbar">
+            {worshipCentres.map((c, i) => {
+              const CardTag = c.city ? "a" : "div";
+              const cardProps = c.city ? { href: "/worship-centres" } : {};
+              return (
+                <CardTag
+                  key={i}
+                  {...cardProps}
+                  className="min-w-[240px] md:min-w-[260px] h-[360px] relative rounded-[20px] overflow-hidden shrink-0 group cursor-pointer snap-center block"
+                >
+                  {c.img && (
+                    <img
+                      src={c.img}
+                      alt={c.city}
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors" />
+                  {c.city && (
+                    <>
+                      <div className="absolute bottom-[16px] left-[16px] text-left">
+                        <h3 className="font-['Nunito_Sans',sans-serif] font-bold text-[24px] text-white mb-[4px]">
+                          {c.city}
+                        </h3>
+                        <p className="font-['Nunito_Sans',sans-serif] text-white/60 text-[16px]">
+                          {c.detail}
+                        </p>
+                      </div>
+                      <div className="absolute top-[16px] right-[16px] opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ArrowRight className="w-6 h-6 text-white -rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                      </div>
+                    </>
+                  )}
+                </CardTag>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -400,13 +379,19 @@ export default function HomePage() {
       {/* General Overseer */}
       <section className="bg-black py-[80px] md:py-[120px] px-6">
         <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-[32px] md:gap-[48px] items-center">
-          <div className="relative h-[400px] md:h-[618px] max-w-[640px] w-full rounded-[24px] overflow-hidden justify-self-center lg:justify-self-start">
+          <div className="relative max-w-[640px] w-full justify-self-center lg:justify-self-start">
             <img
               src={imgPastor}
               alt="Pastor"
-              className="absolute inset-0 w-full h-full object-cover object-top"
+              className="w-full h-auto object-contain"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "radial-gradient(circle, transparent 25%, black 75%)",
+              }}
+            />
           </div>
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left text-white max-w-[444px] mx-auto lg:mx-0">
             <img
@@ -434,17 +419,17 @@ export default function HomePage() {
               as province V chairman of Oyo state Pentecostal Fellowship of
               Nigeria (P.F.N) etc.
             </p>
-            <button
-              className="btn-liquid border border-[#e5e7eb] rounded-[20px] px-[21px] py-[10px] font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors"
+            <LiquidButton
+              className="border border-[#e5e7eb] rounded-[20px] px-[21px] py-[10px] font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors"
               style={
                 {
-                  "--liquid-bg": "white",
-                  "--liquid-text": "black",
+                  "--liquid-button-background-color": "white",
+                  "--liquid-button-color": "black",
                 } as React.CSSProperties
               }
             >
               Read More
-            </button>
+            </LiquidButton>
           </div>
         </div>
       </section>
@@ -460,29 +445,29 @@ export default function HomePage() {
               Your generosity keeps blessing lives, thank you for giving.
             </p>
             <div className="flex flex-col sm:flex-row gap-[10px] w-full sm:w-auto">
-              <a
-                href="/give"
-                className="btn-liquid inline-flex items-center justify-center bg-white text-black px-[20px] py-[10.5px] rounded-full font-['Nunito_Sans',sans-serif] font-black text-[12px] uppercase tracking-[3px] transition-colors"
+              <LiquidButton
+                onClick={() => (window.location.href = "/give")}
+                className="inline-flex items-center justify-center bg-white text-black px-[20px] py-[10.5px] rounded-full font-['Nunito_Sans',sans-serif] font-black text-[12px] uppercase tracking-[3px] transition-colors"
                 style={
                   {
-                    "--liquid-bg": "#f3f4f6",
-                    "--liquid-text": "black",
+                    "--liquid-button-background-color": "#f3f4f6",
+                    "--liquid-button-color": "black",
                   } as React.CSSProperties
                 }
               >
                 Give Now
-              </a>
-              <button
-                className="btn-liquid bg-[#ab00e4] text-white px-[20px] py-[10.5px] rounded-full font-['Nunito_Sans',sans-serif] font-black text-[12px] uppercase tracking-[3px] transition-colors"
+              </LiquidButton>
+              <LiquidButton
+                className="bg-[#ab00e4] text-white px-[20px] py-[10.5px] rounded-full font-['Nunito_Sans',sans-serif] font-black text-[12px] uppercase tracking-[3px] transition-colors"
                 style={
                   {
-                    "--liquid-bg": "#8a00b8",
-                    "--liquid-text": "white",
+                    "--liquid-button-background-color": "#8a00b8",
+                    "--liquid-button-color": "white",
                   } as React.CSSProperties
                 }
               >
                 Building Project
-              </button>
+              </LiquidButton>
             </div>
           </div>
           <div className="w-full h-[300px] md:absolute md:bottom-[-35px] md:right-[-57.59px] md:w-[1152px] pointer-events-none">
@@ -497,130 +482,28 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-[#0f0014] pt-[80px] pb-[40px] px-6 border-t border-white/5">
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-[60px]">
-          {/* Brand */}
-          <div className="flex flex-col items-start gap-6">
-            <div className="flex items-center gap-4">
-              <img
-                src={imgBnLogo1}
-                alt="Logo"
-                className="w-10 object-contain"
-              />
-              <div className="font-['Anton',sans-serif] text-white text-[16px] leading-tight uppercase">
-                <p>BE-NEW IN CHRIST</p>
-                <p className="text-[#ab00e4] mt-1">YET</p>
-              </div>
-            </div>
-            <p className="font-['Nunito_Sans',sans-serif] text-white/60 text-[15px] leading-[24px]">
-              Raising young people who boldly reflect Christ, Evangelize the
-              gospel, and influence culture positively everywhere they go.
-            </p>
-          </div>
+      <Footer />
 
-          {/* Quick Links */}
-          <div className="flex flex-col gap-6">
-            <h4 className="font-['Anton',sans-serif] text-white text-[20px] uppercase tracking-wide">
-              Quick Links
-            </h4>
-            <nav className="flex flex-col gap-4 font-['Nunito_Sans',sans-serif] text-[15px] text-white/70">
-              <a
-                href="#about"
-                className="hover:text-[#ab00e4] transition-colors"
-              >
-                About Us
-              </a>
-              <a
-                href="#campuses"
-                className="hover:text-[#ab00e4] transition-colors"
-              >
-                Campuses
-              </a>
-              <a
-                href="#events"
-                className="hover:text-[#ab00e4] transition-colors"
-              >
-                Events & Programs
-              </a>
-              <a
-                href="/give"
-                className="hover:text-[#ab00e4] transition-colors"
-              >
-                Give to YET
-              </a>
-            </nav>
-          </div>
-
-          {/* Contact Info */}
-          <div className="flex flex-col gap-6">
-            <h4 className="font-['Anton',sans-serif] text-white text-[20px] uppercase tracking-wide">
-              Contact Us
-            </h4>
-            <div className="flex flex-col gap-4 font-['Nunito_Sans',sans-serif] text-[15px] text-white/70">
-              <p>
-                Agotinti Area, <br />
-                Ibadan, Oyo State, Nigeria
-              </p>
-              <p className="hover:text-[#ab00e4] transition-colors cursor-pointer">
-                info@benewyet.org
-              </p>
-              <p className="hover:text-[#ab00e4] transition-colors cursor-pointer">
-                +234 (0) 800 000 0000
-              </p>
-            </div>
-          </div>
-
-          {/* Socials Placeholder */}
-          <div className="flex flex-col gap-6">
-            <h4 className="font-['Anton',sans-serif] text-white text-[20px] uppercase tracking-wide">
-              Follow Us
-            </h4>
-            <div className="flex gap-4 font-['Nunito_Sans',sans-serif] font-bold text-[12px] tracking-[1px]">
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#ab00e4] hover:scale-110 transition-all"
-              >
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#ab00e4] hover:scale-110 transition-all"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#ab00e4] hover:scale-110 transition-all"
-              >
-                <Youtube className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#ab00e4] hover:scale-110 transition-all"
-              >
-                <Twitter className="w-5 h-5" />
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Copyright Bar */}
-        <div className="max-w-[1280px] mx-auto pt-[32px] border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="font-['Nunito_Sans',sans-serif] text-white/50 text-[14px] text-center md:text-left">
-            © {new Date().getFullYear()} Be-New in Christ Evangelical Church
-            (YET). All rights reserved.
-          </p>
-          <div className="flex gap-6 font-['Nunito_Sans',sans-serif] text-white/50 text-[14px]">
-            <a href="#" className="hover:text-white transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
-              Terms of Service
-            </a>
-          </div>
-        </div>
-      </footer>
+      {typeof document !== "undefined" &&
+        createPortal(
+          <LiquidButton
+            onClick={() => (window.location.href = "/conference")}
+            className="fixed bottom-8 right-6 z-[9999] px-[20px] h-[48px] rounded-full bg-[#ab00e4] text-white font-['Lato:Black',sans-serif] text-[11px] tracking-[3px] uppercase shadow-[0_8px_24px_rgba(171,0,228,0.4)] transition-colors border border-transparent cursor-pointer"
+            style={
+              {
+                position: "fixed",
+                bottom: "32px",
+                right: "24px",
+                left: "auto",
+                "--liquid-button-background-color": "#21002c",
+                "--liquid-button-color": "white",
+              } as React.CSSProperties
+            }
+          >
+            YET Conference 2026 →
+          </LiquidButton>,
+          document.body,
+        )}
     </div>
   );
 }

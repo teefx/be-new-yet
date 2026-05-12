@@ -4,11 +4,58 @@ import ConferencePage from "./components/ConferencePage";
 import AdminPage from "./components/AdminPage";
 import YetPopup from "./components/YetPopup";
 import GivePage from "./components/GivePage";
+import WorshipCentresPage from "./components/WorshipCentresPage";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
+import { LiquidButton } from "./components/ui/liquid-button";
 
 function Root() {
-  return <Outlet />;
+  return (
+    <>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+        .btn-liquid {
+          position: relative;
+          overflow: hidden;
+          z-index: 1;
+        }
+        .btn-liquid::before,
+        .btn-liquid::after {
+          content: '';
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          width: 250%;
+          aspect-ratio: 1;
+          background-color: var(--liquid-button-background-color, white);
+          z-index: -1;
+          transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-liquid::before {
+          border-radius: 40%;
+          transform: translate(-50%, 0) rotate(0deg);
+        }
+        .btn-liquid::after {
+          border-radius: 45%;
+          transform: translate(-50%, 0) rotate(0deg);
+          opacity: 0.5;
+        }
+        .btn-liquid:hover:not(:disabled)::before {
+          transform: translate(-50%, -85%) rotate(180deg);
+        }
+        .btn-liquid:hover:not(:disabled)::after {
+          transform: translate(-50%, -85%) rotate(225deg);
+        }
+        .btn-liquid:hover:not(:disabled) {
+          color: var(--liquid-button-color, black) !important;
+        }
+      `,
+        }}
+      />
+      <Outlet />
+    </>
+  );
 }
 
 function HomeRoute() {
@@ -17,12 +64,6 @@ function HomeRoute() {
   return (
     <>
       <HomePage />
-      <button
-        onClick={() => navigate("/conference")}
-        className="fixed bottom-[24px] right-[24px] z-50 px-[20px] h-[48px] rounded-full bg-[#ab00e4] text-white font-['Lato:Black',sans-serif] text-[11px] tracking-[3px] uppercase shadow-[0_8px_24px_rgba(171,0,228,0.4)] hover:bg-[#21002c] transition-colors"
-      >
-        YET Conference 2026 →
-      </button>
       {showPopup && (
         <YetPopup
           onClose={() => setShowPopup(false)}
@@ -59,6 +100,15 @@ function GiveRoute() {
   return <GivePage onHome={() => navigate("/")} />;
 }
 
+function WorshipCentresRoute() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [location.pathname]);
+  return <WorshipCentresPage onHome={() => navigate("/")} />;
+}
+
 function NotFound() {
   const navigate = useNavigate();
   return (
@@ -69,12 +119,18 @@ function NotFound() {
       <p className="font-['Lato:Regular',sans-serif] text-white/70 text-[16px] mb-[24px]">
         That page doesn't exist.
       </p>
-      <button
+      <LiquidButton
         onClick={() => navigate("/")}
-        className="inline-flex items-center justify-center px-[24px] h-[48px] rounded-full bg-[#ab00e4] text-white font-['Lato:Black',sans-serif] text-[12px] tracking-[3px] uppercase hover:bg-white hover:text-[#21002c] transition-colors"
+        className="inline-flex items-center justify-center px-[24px] h-[48px] rounded-full bg-[#ab00e4] text-white font-['Lato:Black',sans-serif] text-[12px] tracking-[3px] uppercase transition-colors border border-transparent"
+        style={
+          {
+            "--liquid-button-background-color": "white",
+            "--liquid-button-color": "#21002c",
+          } as React.CSSProperties
+        }
       >
         Back Home
-      </button>
+      </LiquidButton>
     </div>
   );
 }
@@ -88,6 +144,7 @@ export const router = createBrowserRouter([
       { path: "conference", Component: ConferenceRoute },
       { path: "admin", Component: AdminRoute },
       { path: "give", Component: GiveRoute },
+      { path: "worship-centres", Component: WorshipCentresRoute },
       { path: "*", Component: NotFound },
     ],
   },

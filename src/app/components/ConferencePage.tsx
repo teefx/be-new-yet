@@ -28,6 +28,11 @@ import {
   Minus,
   Copy,
 } from "lucide-react";
+import Footer from "./Footer";
+import NavBar from "./NavBar";
+import { LiquidButton } from "./ui/liquid-button";
+import { FireworksBackground } from "./ui/fireworks-background";
+import imgConfHero from "../../imports/MacBookPro141/conference nav.jpeg";
 
 const API_BASE = `https://${projectId}.supabase.co/functions/v1/make-server-81f6db4e`;
 const API_HEADERS = {
@@ -122,7 +127,7 @@ function PillButton({
   onClick?: () => void;
 }) {
   const base =
-    "btn-liquid inline-flex items-center justify-center px-[21px] h-[48px] rounded-full font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors cursor-pointer";
+    "inline-flex items-center justify-center px-[21px] h-[48px] rounded-full font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors cursor-pointer border-transparent";
   const styles =
     variant === "filled"
       ? "bg-white text-[#21002c]"
@@ -132,33 +137,47 @@ function PillButton({
 
   const liquidVars =
     variant === "filled"
-      ? { "--liquid-bg": "#f9e9ff", "--liquid-text": "#21002c" }
+      ? {
+          "--liquid-button-background-color": "#f9e9ff",
+          "--liquid-button-color": "#21002c",
+        }
       : variant === "outline-dark"
-        ? { "--liquid-bg": "#21002c", "--liquid-text": "white" }
-        : { "--liquid-bg": "white", "--liquid-text": "#21002c" };
+        ? {
+            "--liquid-button-background-color": "#21002c",
+            "--liquid-button-color": "white",
+          }
+        : {
+            "--liquid-button-background-color": "white",
+            "--liquid-button-color": "#21002c",
+          };
 
   return (
-    <button
+    <LiquidButton
       onClick={onClick}
       className={`${base} ${styles}`}
       style={liquidVars as React.CSSProperties}
     >
       {children}
-    </button>
+    </LiquidButton>
   );
 }
 
 function Hero({ onRegister }: { onRegister: () => void }) {
   return (
     <section className="relative bg-[#21002c] overflow-hidden">
+      <FireworksBackground
+        className="absolute inset-0 z-0 pointer-events-none"
+        color={["#ab00e4", "#cd4bf8", "#ffffff", "#f9e9ff"]}
+        population={1.5}
+      />
       <div
-        className="absolute inset-0 opacity-30"
+        className="absolute inset-0 opacity-30 pointer-events-none"
         style={{
           background:
             "radial-gradient(ellipse at 80% 20%, #ab00e4 0%, transparent 60%), radial-gradient(ellipse at 10% 90%, #cd4bf8 0%, transparent 55%)",
         }}
       />
-      <div className="relative max-w-[1280px] mx-auto px-6 md:px-[44px] pt-[100px] md:pt-[140px] pb-[80px] md:pb-[120px] grid grid-cols-1 lg:grid-cols-12 gap-[48px] items-center">
+      <div className="relative z-10 max-w-[1280px] mx-auto px-6 md:px-[44px] pt-[100px] md:pt-[140px] pb-[80px] md:pb-[120px] grid grid-cols-1 lg:grid-cols-12 gap-[48px] items-center">
         <div className="lg:col-span-7 flex flex-col items-start gap-[24px]">
           <Tag icon={Flame}>Youth Empowerment & Transformation</Tag>
           <h1 className="font-['Anton',sans-serif] text-white uppercase text-[40px] leading-[48px] md:text-[64px] md:leading-[68px] tracking-[0.5px]">
@@ -186,7 +205,7 @@ function Hero({ onRegister }: { onRegister: () => void }) {
         <div className="lg:col-span-5 relative">
           <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden border border-white/10">
             <ImageWithFallback
-              src="https://images.unsplash.com/photo-1519750157634-b6d493a0f77c?auto=format&fit=crop&w=1200&q=80"
+              src={imgConfHero}
               alt="YET Conference"
               className="absolute inset-0 w-full h-full object-cover"
             />
@@ -491,24 +510,30 @@ function SuccessModal({
           of <span className="text-[#ab00e4]">₦2,000</span>?
         </p>
         <div className="flex flex-col gap-[12px]">
-          <button
+          <LiquidButton
             onClick={onSupport}
-            className="btn-liquid inline-flex items-center justify-center px-[24px] h-[52px] rounded-full bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors"
+            className="inline-flex items-center justify-center px-[24px] h-[52px] rounded-full bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors border-transparent"
             style={
               {
-                "--liquid-bg": "#21002c",
-                "--liquid-text": "white",
+                "--liquid-button-background-color": "#21002c",
+                "--liquid-button-color": "white",
               } as React.CSSProperties
             }
           >
             Support The Conference
-          </button>
-          <button
+          </LiquidButton>
+          <LiquidButton
             onClick={onClose}
-            className="inline-flex items-center justify-center px-[24px] h-[48px] rounded-full text-[#21002c]/70 font-['Nunito_Sans',sans-serif] font-black text-[11px] tracking-[3px] uppercase hover:text-[#ab00e4] hover:bg-[#ab00e4]/5 transition-all"
+            className="inline-flex items-center justify-center px-[24px] h-[48px] rounded-full bg-black/5 text-[#21002c]/70 font-['Nunito_Sans',sans-serif] font-black text-[11px] tracking-[3px] uppercase transition-colors border-transparent"
+            style={
+              {
+                "--liquid-button-background-color": "#ab00e4",
+                "--liquid-button-color": "white",
+              } as React.CSSProperties
+            }
           >
             Maybe Later
-          </button>
+          </LiquidButton>
         </div>
       </div>
     </div>
@@ -545,29 +570,51 @@ function SupportModal({ onClose }: { onClose: () => void }) {
             Support <span className="text-[#ab00e4]">YET 2026</span>
           </h3>
           <p className="font-['Nunito_Sans',sans-serif] text-[#21002c]/70 text-[15px] leading-[22px]">
-            Online payments are temporarily disabled. Please transfer your contribution directly to our account below.
+            Online payments are temporarily disabled. Please transfer your
+            contribution directly to our account below.
           </p>
         </div>
-        
+
         <div className="bg-[#f9e9ff]/50 border border-[#ab00e4]/20 rounded-[16px] p-[24px] text-center mb-[24px] relative group">
-          <p className="font-['Nunito_Sans',sans-serif] font-black text-[#21002c]/60 text-[11px] tracking-[2px] uppercase mb-[12px]">Direct Bank Transfer</p>
+          <p className="font-['Nunito_Sans',sans-serif] font-black text-[#21002c]/60 text-[11px] tracking-[2px] uppercase mb-[12px]">
+            Direct Bank Transfer
+          </p>
           <div className="flex items-center justify-center gap-[12px] mb-[12px]">
-            <p className="font-['Anton',sans-serif] text-[#ab00e4] text-[36px] md:text-[40px] leading-[40px] tracking-[2px]">2028532716</p>
-            <button onClick={copyToClipboard} className="text-[#ab00e4] hover:scale-110 transition-transform p-2 bg-[#ab00e4]/10 rounded-full" title="Copy Account Number">
-              {copied ? <CheckCircle2 className="w-5 h-5 text-green-500" /> : <Copy className="w-5 h-5" />}
+            <p className="font-['Anton',sans-serif] text-[#ab00e4] text-[36px] md:text-[40px] leading-[40px] tracking-[2px]">
+              2028532716
+            </p>
+            <button
+              onClick={copyToClipboard}
+              className="text-[#ab00e4] hover:scale-110 transition-transform p-2 bg-[#ab00e4]/10 rounded-full"
+              title="Copy Account Number"
+            >
+              {copied ? (
+                <CheckCircle2 className="w-5 h-5 text-green-500" />
+              ) : (
+                <Copy className="w-5 h-5" />
+              )}
             </button>
           </div>
-          <p className="font-['Nunito_Sans',sans-serif] font-bold text-[#21002c] text-[18px] mb-[4px]">Zenith Bank</p>
-          <p className="font-['Nunito_Sans',sans-serif] text-[#21002c]/80 text-[15px]">Be-New in Christ Youth Evangelical Team</p>
+          <p className="font-['Nunito_Sans',sans-serif] font-bold text-[#21002c] text-[18px] mb-[4px]">
+            Zenith Bank
+          </p>
+          <p className="font-['Nunito_Sans',sans-serif] text-[#21002c]/80 text-[15px]">
+            Be-New in Christ Youth Evangelical Team
+          </p>
         </div>
 
-        <button
+        <LiquidButton
           onClick={onClose}
-          className="btn-liquid w-full inline-flex items-center justify-center px-[32px] h-[52px] rounded-full bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors border border-transparent"
-          style={{ "--liquid-bg": "#21002c", "--liquid-text": "white" } as React.CSSProperties}
+          className="w-full inline-flex items-center justify-center px-[32px] h-[52px] rounded-full bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors border border-transparent"
+          style={
+            {
+              "--liquid-button-background-color": "#21002c",
+              "--liquid-button-color": "white",
+            } as React.CSSProperties
+          }
         >
           I Have Made The Transfer
-        </button>
+        </LiquidButton>
       </div>
     </div>
   );
@@ -767,19 +814,19 @@ function RegistrationForm({
               </div>
             )}
             <div className="md:col-span-2 flex justify-center pt-[8px]">
-              <button
+              <LiquidButton
                 type="submit"
                 disabled={busy}
-                className="btn-liquid inline-flex items-center justify-center px-[32px] h-[52px] rounded-full bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors disabled:opacity-60 disabled:cursor-not-allowed border border-transparent"
+                className="inline-flex items-center justify-center px-[32px] h-[52px] rounded-full bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors disabled:opacity-60 disabled:cursor-not-allowed border border-transparent"
                 style={
                   {
-                    "--liquid-bg": "#21002c",
-                    "--liquid-text": "white",
+                    "--liquid-button-background-color": "#21002c",
+                    "--liquid-button-color": "white",
                   } as React.CSSProperties
                 }
               >
                 {busy ? "Submitting…" : "Submit Registration"}
-              </button>
+              </LiquidButton>
             </div>
           </form>
         )}
@@ -883,24 +930,30 @@ function SupportSection({
             ))}
           </ul>
 
-          <button
+          <LiquidButton
             onClick={onSupport}
-            className="btn-liquid w-full inline-flex items-center justify-center px-[24px] h-[52px] rounded-full bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors mb-[10px]"
+            className="w-full inline-flex items-center justify-center px-[24px] h-[52px] rounded-full bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors mb-[10px] border-transparent"
             style={
               {
-                "--liquid-bg": "#21002c",
-                "--liquid-text": "white",
+                "--liquid-button-background-color": "#21002c",
+                "--liquid-button-color": "white",
               } as React.CSSProperties
             }
           >
             Support The Conference
-          </button>
-          <button
+          </LiquidButton>
+          <LiquidButton
             onClick={onSkip}
-            className="w-full inline-flex items-center justify-center px-[24px] h-[48px] rounded-full text-[#21002c]/70 font-['Nunito_Sans',sans-serif] font-black text-[11px] tracking-[3px] uppercase hover:text-[#ab00e4] hover:bg-[#ab00e4]/5 transition-all"
+            className="w-full inline-flex items-center justify-center px-[24px] h-[48px] rounded-full bg-black/5 text-[#21002c]/70 font-['Nunito_Sans',sans-serif] font-black text-[11px] tracking-[3px] uppercase transition-colors border-transparent"
+            style={
+              {
+                "--liquid-button-background-color": "#ab00e4",
+                "--liquid-button-color": "white",
+              } as React.CSSProperties
+            }
           >
             Skip For Now
-          </button>
+          </LiquidButton>
         </div>
       </div>
     </section>
@@ -1045,49 +1098,20 @@ function FinalCta({ onRegister }: { onRegister: () => void }) {
           Join hundreds of young people gathering for worship, transformation,
           purpose, and genuine encounters with God.
         </p>
-        <button
+        <LiquidButton
           onClick={onRegister}
-          className="btn-liquid inline-flex items-center justify-center px-[36px] h-[56px] rounded-full bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors"
+          className="inline-flex items-center justify-center px-[36px] h-[56px] rounded-full bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors border-transparent"
           style={
             {
-              "--liquid-bg": "white",
-              "--liquid-text": "#21002c",
+              "--liquid-button-background-color": "white",
+              "--liquid-button-color": "#21002c",
             } as React.CSSProperties
           }
         >
           Register Now
-        </button>
+        </LiquidButton>
       </div>
     </section>
-  );
-}
-
-function PageHeader({ onHome }: { onHome: () => void }) {
-  return (
-    <header className="absolute top-0 left-0 right-0 z-20">
-      <div className="max-w-[1280px] mx-auto px-6 md:px-[44px] py-[24px] flex items-center justify-between">
-        <button
-          onClick={onHome}
-          className="font-['Anton',sans-serif] text-white text-[24px] uppercase tracking-[1px]"
-        >
-          BE-<span className="text-[#ab00e4]">NEW</span>
-        </button>
-        <nav className="flex items-center gap-4 md:gap-[28px]">
-          <button
-            onClick={onHome}
-            className="font-['Nunito_Sans',sans-serif] font-black text-white text-[11px] tracking-[3px] uppercase hover:text-[#ab00e4] transition-colors"
-          >
-            Home
-          </button>
-          <a
-            href="#register"
-            className="inline-flex items-center justify-center px-[18px] h-[40px] rounded-full border border-white text-white font-['Nunito_Sans',sans-serif] font-black text-[11px] tracking-[3px] uppercase hover:bg-white hover:text-[#21002c] transition-colors"
-          >
-            Register
-          </a>
-        </nav>
-      </div>
-    </header>
   );
 }
 
@@ -1166,38 +1190,7 @@ export default function ConferencePage({ onHome }: { onHome: () => void }) {
 
   return (
     <div className="bg-[#21002c] min-h-screen w-full">
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-        .btn-liquid {
-          position: relative;
-          overflow: hidden;
-          z-index: 1;
-          transition: color 0.4s ease;
-        }
-        .btn-liquid::before {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 50%;
-          width: 300%;
-          height: 300%;
-          background-color: var(--liquid-bg, white);
-          border-radius: 45%;
-          z-index: -1;
-          transform: translate(-50%, 100%) rotate(0deg);
-          transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .btn-liquid:hover::before {
-          transform: translate(-50%, -10%) rotate(180deg);
-        }
-        .btn-liquid:hover {
-          color: var(--liquid-text, black) !important;
-        }
-      `,
-        }}
-      />
-      <PageHeader onHome={onHome} />
+      <NavBar />
       <Hero onRegister={scrollToRegister} />
       <EventDetails />
       <AboutConference />
@@ -1210,6 +1203,7 @@ export default function ConferencePage({ onHome }: { onHome: () => void }) {
       <Experience />
       <Faq />
       <FinalCta onRegister={scrollToRegister} />
+      <Footer />
       {paymentStatus && (
         <PaymentStatusBanner
           status={paymentStatus}
