@@ -11,6 +11,16 @@ const NavBar = () => {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
+
+    // Update favicon to the organization logo
+    let link = document.querySelector<HTMLLinkElement>("link[rel~='icon']");
+    if (!link) {
+      link = document.createElement("link");
+      link.rel = "icon";
+      document.head.appendChild(link);
+    }
+    link.href = imgBnLogo1;
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
