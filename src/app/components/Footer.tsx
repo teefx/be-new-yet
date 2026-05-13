@@ -57,7 +57,7 @@ const Footer = () => {
           </h4>
           <div className="flex flex-col gap-4 font-['Nunito_Sans',sans-serif] text-[15px] text-white/70">
             <p>
-              Agotinti Area, <br />
+              Ago-Tente Area, <br />
               Ibadan, Oyo State, Nigeria
             </p>
             <p className="hover:text-[#ab00e4] transition-colors cursor-pointer">

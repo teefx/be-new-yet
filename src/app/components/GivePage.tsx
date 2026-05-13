@@ -13,6 +13,7 @@ import { LiquidButton } from "./ui/liquid-button";
 
 export default function GivePage({ onHome }: { onHome: () => void }) {
   const [copied, setCopied] = useState(false);
+  const [amount, setAmount] = useState("");
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText("2028532716");
@@ -125,10 +126,24 @@ export default function GivePage({ onHome }: { onHome: () => void }) {
               <h3 className="font-['Anton',sans-serif] text-[#21002c]/60 text-[28px] uppercase mb-[8px]">
                 Online Payment
               </h3>
-              <p className="text-[#21002c]/50 text-[15px] mb-[32px]">
+              <p className="text-[#21002c]/50 text-[15px] mb-[24px]">
                 Give securely from anywhere in the world using debit/credit
                 cards.
               </p>
+
+              <div className="flex flex-col gap-[8px] w-full mb-[32px]">
+                <label className="font-['Nunito_Sans',sans-serif] font-black text-[#21002c]/60 text-[11px] tracking-[2px] uppercase">
+                  Amount (₦)
+                </label>
+                <input
+                  type="number"
+                  min="100"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder="e.g. 5000"
+                  className="w-full h-[52px] rounded-[14px] border border-[#21002c]/15 bg-white/50 px-[16px] font-['Nunito_Sans',sans-serif] text-[15px] text-[#21002c] outline-none focus:border-[#ab00e4] focus:bg-white focus:ring-4 focus:ring-[#ab00e4]/10 transition-all duration-300"
+                />
+              </div>
 
               <div className="mt-auto flex flex-col items-start gap-[16px]">
                 <div className="inline-flex items-center gap-[8px] bg-amber-100 text-amber-800 px-[14px] py-[6px] rounded-full font-bold text-[11px] tracking-[1px] uppercase">

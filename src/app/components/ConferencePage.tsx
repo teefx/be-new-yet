@@ -278,7 +278,7 @@ function EventDetails() {
           <DetailCard
             icon={MapPin}
             label="Location"
-            title="Agotinti, Ibadan"
+            title="Ago-Tente, Ibadan"
             sub="Oyo State, Nigeria"
           />
           <DetailCard icon={Clock} label="Duration" title="3 Impactful Days" />
@@ -487,8 +487,9 @@ function SuccessModal({
   onSupport,
 }: {
   onClose: () => void;
-  onSupport: () => void;
+  onSupport: (amount?: number) => void;
 }) {
+  const [amount, setAmount] = useState<string>("5000");
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-[20px]">
       <div
@@ -505,13 +506,28 @@ function SuccessModal({
         <p className="font-['Nunito_Sans',sans-serif] text-[#21002c]/75 text-[16px] leading-[26px] mb-[8px]">
           Thank you for registering for YET Conference 2026.
         </p>
-        <p className="font-['Nunito_Sans',sans-serif] text-[#21002c]/70 text-[15px] leading-[24px] mb-[28px]">
-          Would you like to support the conference with an optional contribution
-          of <span className="text-[#ab00e4]">₦2,000</span>?
-        </p>
+        <div className="bg-[#f9e9ff]/50 border border-[#ab00e4]/20 rounded-[16px] p-[20px] mb-[28px] text-left">
+          <p className="font-['Nunito_Sans',sans-serif] text-[#21002c]/80 text-[15px] leading-[24px] mb-[12px]">
+            Would you like to support the conference with an optional
+            contribution?
+          </p>
+          <div className="flex flex-col gap-[8px]">
+            <label className="font-['Nunito_Sans',sans-serif] font-black text-[#21002c]/60 text-[11px] tracking-[2px] uppercase">
+              Amount (₦)
+            </label>
+            <input
+              type="number"
+              min="500"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="e.g. 5000"
+              className="w-full h-[52px] rounded-[14px] border border-[#ab00e4]/20 bg-white px-[16px] font-['Nunito_Sans',sans-serif] text-[15px] text-[#21002c] outline-none focus:border-[#ab00e4] focus:ring-4 focus:ring-[#ab00e4]/10 transition-all duration-300"
+            />
+          </div>
+        </div>
         <div className="flex flex-col gap-[12px]">
           <LiquidButton
-            onClick={onSupport}
+            onClick={() => onSupport(Number(amount) || 5000)}
             className="inline-flex items-center justify-center px-[24px] h-[52px] rounded-full bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors border-transparent"
             style={
               {
@@ -540,7 +556,13 @@ function SuccessModal({
   );
 }
 
-function SupportModal({ onClose }: { onClose: () => void }) {
+function SupportModal({
+  amount,
+  onClose,
+}: {
+  amount?: number;
+  onClose: () => void;
+}) {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = () => {
@@ -577,7 +599,7 @@ function SupportModal({ onClose }: { onClose: () => void }) {
 
         <div className="bg-[#f9e9ff]/50 border border-[#ab00e4]/20 rounded-[16px] p-[24px] text-center mb-[24px] relative group">
           <p className="font-['Nunito_Sans',sans-serif] font-black text-[#21002c]/60 text-[11px] tracking-[2px] uppercase mb-[12px]">
-            Direct Bank Transfer
+            Direct Bank Transfer {amount ? `(₦${amount.toLocaleString()})` : ""}
           </p>
           <div className="flex items-center justify-center gap-[12px] mb-[12px]">
             <p className="font-['Anton',sans-serif] text-[#ab00e4] text-[36px] md:text-[40px] leading-[40px] tracking-[2px]">
@@ -637,7 +659,7 @@ const emptyForm: RegistrationPayload = {
 function RegistrationForm({
   onSupport,
 }: {
-  onSupport: (registrationId: string) => void;
+  onSupport: (registrationId: string, amount?: number) => void;
 }) {
   const [form, setForm] = useState<RegistrationPayload>(emptyForm);
   const [submitted, setSubmitted] = useState(false);
@@ -834,9 +856,9 @@ function RegistrationForm({
       {showModal && registrationId && (
         <SuccessModal
           onClose={() => setShowModal(false)}
-          onSupport={() => {
+          onSupport={(amount) => {
             setShowModal(false);
-            onSupport(registrationId);
+            onSupport(registrationId, amount);
           }}
         />
       )}
@@ -848,9 +870,10 @@ function SupportSection({
   onSupport,
   onSkip,
 }: {
-  onSupport: () => void;
+  onSupport: (amount?: number) => void;
   onSkip: () => void;
 }) {
+  const [amount, setAmount] = useState<string>("5000");
   const includes = [
     "Conference logistics",
     "Welfare & hospitality",
@@ -879,11 +902,11 @@ function SupportSection({
           </p>
           <p className="font-['Nunito_Sans',sans-serif] text-[#21002c]/70 text-[16px] leading-[26px]">
             However, attendees who would like to support the conference can make
-            an optional contribution of{" "}
+            an optional contribution (suggested:{" "}
             <span className="text-[#ab00e4] font-['Nunito_Sans',sans-serif] font-black">
-              ₦2,000
-            </span>{" "}
-            to help with logistics, accommodation support, welfare, materials,
+              ₦5,000
+            </span>
+            ) to help with logistics, accommodation support, welfare, materials,
             activities, and creating an excellent experience for everyone
             attending.
           </p>
@@ -898,15 +921,20 @@ function SupportSection({
 
         <div className="bg-white rounded-[24px] p-[24px] md:p-[40px] shadow-[0_20px_60px_rgba(33,0,44,0.1)] border border-[#21002c]/5 relative z-10">
           <div className="flex items-start justify-between mb-[24px]">
-            <div>
+            <div className="w-full mr-[20px]">
               <p className="font-['Nunito_Sans',sans-serif] font-black text-[#21002c]/60 text-[11px] tracking-[2.4px] uppercase mb-[8px]">
-                Contribution
+                Contribution Amount (₦)
               </p>
-              <p className="font-['Anton',sans-serif] text-[#21002c] text-[48px] leading-[48px] md:text-[56px] md:leading-[56px]">
-                ₦2,000
-              </p>
+              <input
+                type="number"
+                min="500"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="5000"
+                className="w-full max-w-[200px] h-[56px] rounded-[16px] border border-[#21002c]/15 bg-white px-[20px] font-['Anton',sans-serif] text-[32px] md:text-[40px] text-[#21002c] outline-none focus:border-[#ab00e4] focus:ring-4 focus:ring-[#ab00e4]/10 transition-all duration-300"
+              />
             </div>
-            <div className="text-[36px] bg-[#f9e9ff] text-[#ab00e4] w-[64px] h-[64px] rounded-full flex items-center justify-center">
+            <div className="text-[36px] bg-[#f9e9ff] text-[#ab00e4] w-[64px] h-[64px] rounded-full flex items-center justify-center shrink-0">
               <HeartHandshake className="w-8 h-8" />
             </div>
           </div>
@@ -931,7 +959,7 @@ function SupportSection({
           </ul>
 
           <LiquidButton
-            onClick={onSupport}
+            onClick={() => onSupport(Number(amount) || 5000)}
             className="w-full inline-flex items-center justify-center px-[24px] h-[52px] rounded-full bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors mb-[10px] border-transparent"
             style={
               {
@@ -1153,6 +1181,7 @@ export default function ConferencePage({ onHome }: { onHome: () => void }) {
     "verifying" | "success" | "failed" | null
   >(null);
   const [showSupportModal, setShowSupportModal] = useState(false);
+  const [supportAmount, setSupportAmount] = useState<number>(5000);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -1184,7 +1213,8 @@ export default function ConferencePage({ onHome }: { onHome: () => void }) {
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const handleSupport = async (registrationId: string) => {
+  const handleSupport = async (registrationId: string, amount?: number) => {
+    if (amount) setSupportAmount(amount);
     setShowSupportModal(true);
   };
 
@@ -1197,7 +1227,10 @@ export default function ConferencePage({ onHome }: { onHome: () => void }) {
       <WhyRegister />
       <RegistrationForm onSupport={handleSupport} />
       <SupportSection
-        onSupport={() => setShowSupportModal(true)}
+        onSupport={(amount) => {
+          if (amount) setSupportAmount(amount);
+          setShowSupportModal(true);
+        }}
         onSkip={scrollToRegister}
       />
       <Experience />
@@ -1211,7 +1244,10 @@ export default function ConferencePage({ onHome }: { onHome: () => void }) {
         />
       )}
       {showSupportModal && (
-        <SupportModal onClose={() => setShowSupportModal(false)} />
+        <SupportModal
+          amount={supportAmount}
+          onClose={() => setShowSupportModal(false)}
+        />
       )}
     </div>
   );

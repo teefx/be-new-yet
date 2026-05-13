@@ -18,7 +18,7 @@ app.use(
 );
 
 const BASE = "/make-server-81f6db4e";
-const PAYSTACK_AMOUNT_KOBO = 2000 * 100; // ₦2,000 in kobo
+const PAYSTACK_AMOUNT_KOBO = 5000 * 100; // ₦5,000 in kobo
 
 app.get(`${BASE}/health`, (c) => c.json({ status: "ok" }));
 
@@ -47,7 +47,9 @@ async function sendEmail(opts: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "YET Conference <onboarding@resend.dev>",
+        from:
+          Deno.env.get("RESEND_FROM_EMAIL") ||
+          "YET Conference <onboarding@resend.dev>",
         to: opts.to,
         subject: opts.subject,
         html: opts.html,
@@ -68,7 +70,7 @@ function confirmationEmailHtml(name: string): string {
       <h1 style="font-size: 28px; margin: 0 0 12px; text-transform: uppercase;">🎉 You're Registered!</h1>
       <p style="font-size: 16px; line-height: 24px;">Hi ${name},</p>
       <p style="font-size: 16px; line-height: 24px;">Thank you for registering for <strong>YET Conference 2026</strong>. We'll be in touch with conference dates, schedule, and accommodation details soon.</p>
-      <p style="font-size: 14px; line-height: 22px; color: #21002c99;">If you'd like to make the optional ₦2,000 contribution to support the conference, you can do so from the registration page on our site.</p>
+      <p style="font-size: 14px; line-height: 22px; color: #21002c99;">If you'd like to make the optional ₦5,000 contribution to support the conference, you can do so from the registration page on our site.</p>
       <p style="font-size: 14px; line-height: 22px; color: #21002c99;">— BE-NEW</p>
     </div>
   `;
@@ -78,7 +80,7 @@ function thankYouEmailHtml(name: string): string {
   return `
     <div style="font-family: system-ui, sans-serif; max-width: 560px; margin: 0 auto; padding: 32px; background: #fff8ee; border-radius: 16px; color: #21002c;">
       <h1 style="font-size: 28px; margin: 0 0 12px; text-transform: uppercase;">💜 Thank You, ${name}!</h1>
-      <p style="font-size: 16px; line-height: 24px;">Your ₦2,000 contribution toward YET Conference 2026 has been received. Every Naira goes toward logistics, welfare, materials, and an excellent experience for everyone attending.</p>
+      <p style="font-size: 16px; line-height: 24px;">Your ₦5,000 contribution toward YET Conference 2026 has been received. Every Naira goes toward logistics, welfare, materials, and an excellent experience for everyone attending.</p>
       <p style="font-size: 14px; line-height: 22px; color: #21002c99;">See you at the conference!</p>
       <p style="font-size: 14px; line-height: 22px; color: #21002c99;">— BE-NEW</p>
     </div>
@@ -95,7 +97,9 @@ app.post(`${BASE}/registrations`, async (c) => {
   }
 
   const fullName = String(payload.fullName ?? "").trim();
-  const email = String(payload.email ?? "").trim().toLowerCase();
+  const email = String(payload.email ?? "")
+    .trim()
+    .toLowerCase();
   if (!fullName || !email) {
     return c.json({ error: "fullName and email are required" }, 400);
   }
@@ -120,6 +124,14 @@ app.post(`${BASE}/registrations`, async (c) => {
   };
 
   try {
+    const existingId = await kv.get(`registration_by_email:${email}`);
+    if (existingId) {
+      return c.json(
+        { error: "An account with this email is already registered." },
+        400,
+      );
+    }
+
     await kv.set(`registration:${id}`, record);
     await kv.set(`registration_by_email:${email}`, id);
   } catch (error) {
@@ -136,14 +148,14 @@ app.post(`${BASE}/registrations`, async (c) => {
   return c.json({ id, ok: true });
 });
 
-// POST /paystack/init — initialize a ₦2,000 transaction for a registration
+// POST /paystack/init — initialize a ₦5,000 transaction for a registration
 app.post(`${BASE}/paystack/init`, async (c) => {
   const secret = Deno.env.get("PAYSTACK_SECRET_KEY");
   if (!secret) {
     return c.json({ error: "PAYSTACK_SECRET_KEY is not configured" }, 500);
   }
 
-  let body: { registrationId?: string; callbackUrl?: string };
+  let body: { registrationId?: string; callbackUrl?: string; amount?: number };
   try {
     body = await c.req.json();
   } catch (error) {
@@ -163,6 +175,10 @@ app.post(`${BASE}/paystack/init`, async (c) => {
     return c.json({ error: `No registration with id ${registrationId}` }, 404);
   }
 
+  const amountKobo = body.amount
+    ? Math.round(Number(body.amount) * 100)
+    : PAYSTACK_AMOUNT_KOBO;
+
   try {
     const res = await fetch("https://api.paystack.co/transaction/initialize", {
       method: "POST",
@@ -172,7 +188,7 @@ app.post(`${BASE}/paystack/init`, async (c) => {
       },
       body: JSON.stringify({
         email: registration.email,
-        amount: PAYSTACK_AMOUNT_KOBO,
+        amount: amountKobo,
         currency: "NGN",
         callback_url: callbackUrl,
         metadata: {
@@ -253,7 +269,11 @@ app.get(`${BASE}/paystack/verify`, async (c) => {
       }
     }
 
-    return c.json({ success, reference, registrationId: registrationId ?? null });
+    return c.json({
+      success,
+      reference,
+      registrationId: registrationId ?? null,
+    });
   } catch (error) {
     console.log(`Paystack verify threw for ${reference}: ${error}`);
     return c.json({ error: `Paystack verify error: ${error}` }, 502);

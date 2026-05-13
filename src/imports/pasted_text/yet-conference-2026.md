@@ -51,7 +51,7 @@ Exact dates to be announced soon
 
 📍 Location
 
-Agotinti, Ibadan
+Ago-Tente, Ibadan
 Oyo State, Nigeria
 
 ⏳ Duration
