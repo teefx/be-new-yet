@@ -2,7 +2,7 @@ import { useState } from "react";
 import { projectId, publicAnonKey } from "../../../utils/supabase/info";
 import { LiquidButton } from "./ui/liquid-button";
 
-const API_BASE = `https://${projectId}.supabase.co/functions/v1/make-server-81f6db4e`;
+const API_BASE = `https://${projectId}.supabase.co/functions/v1/server`;
 
 type Registration = {
   id: string;

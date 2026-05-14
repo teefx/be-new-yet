@@ -1,7 +1,7 @@
 import { Hono } from "npm:hono";
 import { cors } from "npm:hono/cors";
 import { logger } from "npm:hono/logger";
-import * as kv from "./kv_store.tsx";
+import * as kv from "./kv_store.ts";
 
 const app = new Hono();
 
@@ -17,7 +17,7 @@ app.use(
   }),
 );
 
-const BASE = "/make-server-81f6db4e";
+const BASE = "/server";
 const PAYSTACK_AMOUNT_KOBO = 5000 * 100; // ₦5,000 in kobo
 
 app.get(`${BASE}/health`, (c) => c.json({ status: "ok" }));
@@ -49,7 +49,7 @@ async function sendEmail(opts: {
       body: JSON.stringify({
         from:
           Deno.env.get("RESEND_FROM_EMAIL") ||
-          "YET Conference <onboarding@resend.dev>",
+          "YET Conference <info@benewyouth.org>",
         to: opts.to,
         subject: opts.subject,
         html: opts.html,
