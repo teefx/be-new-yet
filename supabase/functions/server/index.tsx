@@ -68,7 +68,6 @@ function confirmationEmailHtml(name: string): string {
   return `
     <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 24px; overflow: hidden; color: #21002c; border: 1px solid #f9e9ff; box-shadow: 0 10px 40px rgba(33,0,44,0.08);">
       <div style="background-color: #21002c; padding: 40px 32px; text-align: center;">
-        <img src="https://benewyouth.org/logo.png" alt="Be-New YET Logo" style="height: 48px; width: auto; margin-bottom: 24px; display: block; margin-left: auto; margin-right: auto;" />
         <h1 style="margin: 0; color: #ffffff; font-size: 32px; text-transform: uppercase; letter-spacing: 1px;">YOU'RE <span style="color: #ab00e4;">IN!</span></h1>
         <p style="margin: 12px 0 0; color: #cccccc; font-size: 16px; letter-spacing: 2px; text-transform: uppercase;">YET CONFERENCE 2026</p>
       </div>
@@ -93,7 +92,6 @@ function thankYouEmailHtml(name: string): string {
   return `
     <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 24px; overflow: hidden; color: #21002c; border: 1px solid #f9e9ff; box-shadow: 0 10px 40px rgba(33,0,44,0.08);">
       <div style="background-color: #21002c; padding: 40px 32px; text-align: center;">
-        <img src="https://benewyouth.org/logo.png" alt="Be-New YET Logo" style="height: 48px; width: auto; margin-bottom: 24px; display: block; margin-left: auto; margin-right: auto;" />
         <div style="background-color: #ab00e4; width: 64px; height: 64px; border-radius: 50%; display: inline-block; margin-bottom: 16px; line-height: 64px; font-size: 32px;">💜</div>
         <h1 style="margin: 0; color: #ffffff; font-size: 32px; text-transform: uppercase; letter-spacing: 1px;">THANK <span style="color: #ab00e4;">YOU!</span></h1>
       </div>
