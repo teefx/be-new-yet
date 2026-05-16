@@ -10,19 +10,24 @@ import imgHeroBg from "../../imports/MacBookPro141/WhatsApp Image 2026-05-12 at 
 import Footer from "./Footer";
 import NavBar from "./NavBar";
 import { LiquidButton } from "./ui/liquid-button";
+import SEO from "./SEO";
 
 export default function GivePage({ onHome }: { onHome: () => void }) {
   const [copied, setCopied] = useState(false);
   const [amount, setAmount] = useState("");
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText("2028532716");
+    navigator.clipboard.writeText("9076965137");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
     <div className="bg-[#21002c] min-h-screen w-full font-['Nunito_Sans',sans-serif]">
+      <SEO
+        title="Give | Be-New YET"
+        description="Give towards our mission to reach a billion souls in ten thousand cities with the message of the gospel."
+      />
       <NavBar />
 
       {/* Hero Section */}
@@ -92,7 +97,7 @@ export default function GivePage({ onHome }: { onHome: () => void }) {
                 </p>
                 <div className="flex flex-wrap items-center justify-between gap-[16px] mb-[16px]">
                   <p className="font-['Anton',sans-serif] text-[#ab00e4] text-[36px] md:text-[44px] leading-none tracking-[2px]">
-                    2028532716
+                    9076965137
                   </p>
                   <button
                     onClick={copyToClipboard}
@@ -108,10 +113,10 @@ export default function GivePage({ onHome }: { onHome: () => void }) {
                 </div>
                 <div className="flex flex-col gap-[4px]">
                   <p className="font-bold text-[#21002c] text-[18px]">
-                    Zenith Bank
+                    Moniepoint
                   </p>
                   <p className="text-[#21002c]/80 text-[15px]">
-                    Be-New in Christ Youth Evangelical Team
+                    Muibi Oluwadamilola Esther
                   </p>
                 </div>
               </div>

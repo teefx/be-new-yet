@@ -33,6 +33,7 @@ import NavBar from "./NavBar";
 import { LiquidButton } from "./ui/liquid-button";
 import { FireworksBackground } from "./ui/fireworks-background";
 import imgConfHero from "../../imports/MacBookPro141/conference nav.jpeg";
+import SEO from "./SEO";
 
 const API_BASE = `https://${projectId}.supabase.co/functions/v1/server`;
 const API_HEADERS = {
@@ -65,37 +66,6 @@ async function createRegistration(
   const data = await res.json();
   if (!res.ok) {
     throw new Error(data?.error ?? `Registration failed (${res.status})`);
-  }
-  return data;
-}
-
-async function initPaystack(
-  registrationId: string,
-  amount?: number,
-): Promise<{ authorizationUrl: string; reference: string }> {
-  const callbackUrl = `${window.location.origin}/conference`;
-  const res = await fetch(`${API_BASE}/paystack/init`, {
-    method: "POST",
-    headers: API_HEADERS,
-    body: JSON.stringify({ registrationId, callbackUrl, amount }),
-  });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data?.error ?? `Paystack init failed (${res.status})`);
-  }
-  return data;
-}
-
-async function verifyPaystack(
-  reference: string,
-): Promise<{ success: boolean }> {
-  const res = await fetch(
-    `${API_BASE}/paystack/verify?reference=${encodeURIComponent(reference)}`,
-    { headers: API_HEADERS },
-  );
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data?.error ?? `Paystack verify failed (${res.status})`);
   }
   return data;
 }
@@ -482,14 +452,7 @@ function BrandSelect({
   );
 }
 
-function SuccessModal({
-  onClose,
-  onSupport,
-}: {
-  onClose: () => void;
-  onSupport: (amount?: number) => void;
-}) {
-  const [amount, setAmount] = useState<string>("5000");
+function SuccessModal({ onClose }: { onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-[20px]">
       <div
@@ -503,131 +466,13 @@ function SuccessModal({
         <h3 className="font-['Anton',sans-serif] text-[#21002c] text-[28px] leading-[34px] md:text-[36px] md:leading-[42px] uppercase mb-[12px]">
           Registration <span className="text-[#ab00e4]">Successful</span>
         </h3>
-        <p className="font-['Nunito_Sans',sans-serif] text-[#21002c]/75 text-[16px] leading-[26px] mb-[8px]">
-          Thank you for registering for YET Conference 2026.
+        <p className="font-['Nunito_Sans',sans-serif] text-[#21002c]/75 text-[16px] leading-[26px] mb-[28px]">
+          Thank you for registering for YET Conference 2026. We've received your
+          registration and will be in touch with next steps.
         </p>
-        <div className="bg-[#f9e9ff]/50 border border-[#ab00e4]/20 rounded-[16px] p-[20px] mb-[28px] text-left">
-          <p className="font-['Nunito_Sans',sans-serif] text-[#21002c]/80 text-[15px] leading-[24px] mb-[12px]">
-            Would you like to support the conference with an optional
-            contribution?
-          </p>
-          <div className="flex flex-col gap-[8px]">
-            <label className="font-['Nunito_Sans',sans-serif] font-black text-[#21002c]/60 text-[11px] tracking-[2px] uppercase">
-              Amount (₦)
-            </label>
-            <input
-              type="number"
-              min="500"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="e.g. 5000"
-              className="w-full h-[52px] rounded-[14px] border border-[#ab00e4]/20 bg-white px-[16px] font-['Nunito_Sans',sans-serif] text-[15px] text-[#21002c] outline-none focus:border-[#ab00e4] focus:ring-4 focus:ring-[#ab00e4]/10 transition-all duration-300"
-            />
-          </div>
-        </div>
-        <div className="flex flex-col gap-[12px]">
-          <LiquidButton
-            onClick={() => onSupport(Number(amount) || 5000)}
-            className="inline-flex items-center justify-center px-[24px] h-[52px] rounded-full bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors border-transparent"
-            style={
-              {
-                "--liquid-button-background-color": "#21002c",
-                "--liquid-button-color": "white",
-              } as React.CSSProperties
-            }
-          >
-            Support The Conference
-          </LiquidButton>
-          <LiquidButton
-            onClick={onClose}
-            className="inline-flex items-center justify-center px-[24px] h-[48px] rounded-full bg-black/5 text-[#21002c]/70 font-['Nunito_Sans',sans-serif] font-black text-[11px] tracking-[3px] uppercase transition-colors border-transparent"
-            style={
-              {
-                "--liquid-button-background-color": "#ab00e4",
-                "--liquid-button-color": "white",
-              } as React.CSSProperties
-            }
-          >
-            Maybe Later
-          </LiquidButton>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function SupportModal({
-  amount,
-  onClose,
-}: {
-  amount?: number;
-  onClose: () => void;
-}) {
-  const [copied, setCopied] = useState(false);
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText("2028532716");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center px-[20px]">
-      <div
-        className="absolute inset-0 bg-[#21002c]/80 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      <div className="relative bg-white rounded-[24px] max-w-[440px] w-full p-[24px] md:p-[40px] shadow-[0_20px_60px_rgba(33,0,44,0.4)]">
-        <button
-          onClick={onClose}
-          className="absolute top-[20px] right-[20px] w-[32px] h-[32px] flex items-center justify-center rounded-full bg-[#21002c]/5 text-[#21002c]/50 hover:bg-[#21002c]/10 hover:text-[#21002c] transition-colors"
-        >
-          ×
-        </button>
-        <div className="text-center mb-[24px]">
-          <div className="bg-[#f9e9ff] text-[#ab00e4] w-[64px] h-[64px] rounded-full flex items-center justify-center mx-auto mb-[16px]">
-            <HeartHandshake className="w-8 h-8" />
-          </div>
-          <h3 className="font-['Anton',sans-serif] text-[#21002c] text-[28px] leading-[34px] uppercase mb-[8px]">
-            Support <span className="text-[#ab00e4]">YET 2026</span>
-          </h3>
-          <p className="font-['Nunito_Sans',sans-serif] text-[#21002c]/70 text-[15px] leading-[22px]">
-            Online payments are temporarily disabled. Please transfer your
-            contribution directly to our account below.
-          </p>
-        </div>
-
-        <div className="bg-[#f9e9ff]/50 border border-[#ab00e4]/20 rounded-[16px] p-[24px] text-center mb-[24px] relative group">
-          <p className="font-['Nunito_Sans',sans-serif] font-black text-[#21002c]/60 text-[11px] tracking-[2px] uppercase mb-[12px]">
-            Direct Bank Transfer {amount ? `(₦${amount.toLocaleString()})` : ""}
-          </p>
-          <div className="flex items-center justify-center gap-[12px] mb-[12px]">
-            <p className="font-['Anton',sans-serif] text-[#ab00e4] text-[36px] md:text-[40px] leading-[40px] tracking-[2px]">
-              2028532716
-            </p>
-            <button
-              onClick={copyToClipboard}
-              className="text-[#ab00e4] hover:scale-110 transition-transform p-2 bg-[#ab00e4]/10 rounded-full"
-              title="Copy Account Number"
-            >
-              {copied ? (
-                <CheckCircle2 className="w-5 h-5 text-green-500" />
-              ) : (
-                <Copy className="w-5 h-5" />
-              )}
-            </button>
-          </div>
-          <p className="font-['Nunito_Sans',sans-serif] font-bold text-[#21002c] text-[18px] mb-[4px]">
-            Zenith Bank
-          </p>
-          <p className="font-['Nunito_Sans',sans-serif] text-[#21002c]/80 text-[15px]">
-            Be-New in Christ Youth Evangelical Team
-          </p>
-        </div>
-
         <LiquidButton
           onClick={onClose}
-          className="w-full inline-flex items-center justify-center px-[32px] h-[52px] rounded-full bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors border border-transparent"
+          className="inline-flex items-center justify-center px-[24px] h-[52px] rounded-full bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors border-transparent"
           style={
             {
               "--liquid-button-background-color": "#21002c",
@@ -635,7 +480,7 @@ function SupportModal({
             } as React.CSSProperties
           }
         >
-          I Have Made The Transfer
+          Close
         </LiquidButton>
       </div>
     </div>
@@ -656,15 +501,10 @@ const emptyForm: RegistrationPayload = {
   prayerRequest: "",
 };
 
-function RegistrationForm({
-  onSupport,
-}: {
-  onSupport: (registrationId: string, amount?: number) => void;
-}) {
+function RegistrationForm() {
   const [form, setForm] = useState<RegistrationPayload>(emptyForm);
   const [submitted, setSubmitted] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [registrationId, setRegistrationId] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -682,8 +522,7 @@ function RegistrationForm({
     setBusy(true);
     setError(null);
     try {
-      const { id } = await createRegistration(form);
-      setRegistrationId(id);
+      await createRegistration(form);
       setSubmitted(true);
       setShowModal(true);
     } catch (err) {
@@ -853,137 +692,7 @@ function RegistrationForm({
           </form>
         )}
       </div>
-      {showModal && registrationId && (
-        <SuccessModal
-          onClose={() => setShowModal(false)}
-          onSupport={(amount) => {
-            setShowModal(false);
-            onSupport(registrationId, amount);
-          }}
-        />
-      )}
-    </section>
-  );
-}
-
-function SupportSection({
-  onSupport,
-  onSkip,
-}: {
-  onSupport: (amount?: number) => void;
-  onSkip: () => void;
-}) {
-  const [amount, setAmount] = useState<string>("5000");
-  const includes = [
-    "Conference logistics",
-    "Welfare & hospitality",
-    "Activities & engagement",
-    "Media & conference materials",
-    "Accommodation support",
-  ];
-  return (
-    <section id="support" className="py-[40px] md:py-[80px] px-6 md:px-[44px]">
-      <div className="bg-[#fff8ee] relative overflow-hidden rounded-[32px] max-w-[1280px] mx-auto p-[32px] md:p-[64px] grid grid-cols-1 lg:grid-cols-2 gap-[40px] md:gap-[56px] items-center shadow-[0_20px_60px_rgba(0,0,0,0.1)]">
-        <div
-          className="absolute inset-0 opacity-20 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse at 90% 10%, #ab00e4 0%, transparent 50%), radial-gradient(ellipse at 10% 90%, #cd4bf8 0%, transparent 50%)",
-          }}
-        />
-        <div className="flex flex-col gap-[20px] relative z-10">
-          <Tag icon={HeartHandshake}>Support YET Conference</Tag>
-          <h2 className="font-['Anton',sans-serif] text-[#21002c] text-[40px] leading-[46px] md:text-[52px] md:leading-[58px] uppercase">
-            Help Us Create An{" "}
-            <span className="text-[#ab00e4]">Impactful Experience</span>
-          </h2>
-          <p className="font-['Nunito_Sans',sans-serif] text-[#21002c]/80 text-[16px] leading-[26px] md:text-[17px] md:leading-[28px]">
-            Registration for YET Conference 2026 is completely free.
-          </p>
-          <p className="font-['Nunito_Sans',sans-serif] text-[#21002c]/70 text-[16px] leading-[26px]">
-            However, attendees who would like to support the conference can make
-            an optional contribution (suggested:{" "}
-            <span className="text-[#ab00e4] font-['Nunito_Sans',sans-serif] font-black">
-              ₦5,000
-            </span>
-            ) to help with logistics, accommodation support, welfare, materials,
-            activities, and creating an excellent experience for everyone
-            attending.
-          </p>
-          <p className="font-['Nunito_Sans',sans-serif] text-[#21002c]/70 text-[16px] leading-[26px]">
-            Every contribution goes a long way and is greatly appreciated. 💜
-          </p>
-          <p className="font-['Nunito_Sans',sans-serif] text-[#21002c]/50 text-[13px] leading-[20px] pt-[8px] italic">
-            Your contribution is completely optional and not required for
-            conference registration or attendance.
-          </p>
-        </div>
-
-        <div className="bg-white rounded-[24px] p-[24px] md:p-[40px] shadow-[0_20px_60px_rgba(33,0,44,0.1)] border border-[#21002c]/5 relative z-10">
-          <div className="flex items-start justify-between mb-[24px]">
-            <div className="w-full mr-[20px]">
-              <p className="font-['Nunito_Sans',sans-serif] font-black text-[#21002c]/60 text-[11px] tracking-[2.4px] uppercase mb-[8px]">
-                Contribution Amount (₦)
-              </p>
-              <input
-                type="number"
-                min="500"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="5000"
-                className="w-full max-w-[200px] h-[56px] rounded-[16px] border border-[#21002c]/15 bg-white px-[20px] font-['Anton',sans-serif] text-[32px] md:text-[40px] text-[#21002c] outline-none focus:border-[#ab00e4] focus:ring-4 focus:ring-[#ab00e4]/10 transition-all duration-300"
-              />
-            </div>
-            <div className="text-[36px] bg-[#f9e9ff] text-[#ab00e4] w-[64px] h-[64px] rounded-full flex items-center justify-center shrink-0">
-              <HeartHandshake className="w-8 h-8" />
-            </div>
-          </div>
-
-          <div className="h-px bg-[#21002c]/10 my-[20px]" />
-
-          <p className="font-['Nunito_Sans',sans-serif] font-black text-[#21002c] text-[11px] tracking-[2.4px] uppercase mb-[16px]">
-            Includes Support Towards
-          </p>
-          <ul className="flex flex-col gap-[12px] mb-[28px]">
-            {includes.map((item) => (
-              <li
-                key={item}
-                className="flex items-start gap-[10px] group cursor-default transition-transform duration-300 hover:translate-x-2"
-              >
-                <div className="mt-[6px] w-[6px] h-[12px] bg-[#2C2C2C] group-hover:bg-[#ab00e4] shrink-0 border-b-[6px] border-[#D9D9D9] group-hover:border-[#ab00e4]/30 transition-colors duration-300" />
-                <p className="font-['Nunito_Sans',sans-serif] text-[#21002c]/80 group-hover:text-[#21002c] text-[15px] leading-[22px] transition-colors duration-300">
-                  {item}
-                </p>
-              </li>
-            ))}
-          </ul>
-
-          <LiquidButton
-            onClick={() => onSupport(Number(amount) || 5000)}
-            className="w-full inline-flex items-center justify-center px-[24px] h-[52px] rounded-full bg-[#ab00e4] text-white font-['Nunito_Sans',sans-serif] font-black text-[12px] tracking-[3px] uppercase transition-colors mb-[10px] border-transparent"
-            style={
-              {
-                "--liquid-button-background-color": "#21002c",
-                "--liquid-button-color": "white",
-              } as React.CSSProperties
-            }
-          >
-            Support The Conference
-          </LiquidButton>
-          <LiquidButton
-            onClick={onSkip}
-            className="w-full inline-flex items-center justify-center px-[24px] h-[48px] rounded-full bg-black/5 text-[#21002c]/70 font-['Nunito_Sans',sans-serif] font-black text-[11px] tracking-[3px] uppercase transition-colors border-transparent"
-            style={
-              {
-                "--liquid-button-background-color": "#ab00e4",
-                "--liquid-button-color": "white",
-              } as React.CSSProperties
-            }
-          >
-            Skip For Now
-          </LiquidButton>
-        </div>
-      </div>
+      {showModal && <SuccessModal onClose={() => setShowModal(false)} />}
     </section>
   );
 }
@@ -1143,112 +852,57 @@ function FinalCta({ onRegister }: { onRegister: () => void }) {
   );
 }
 
-function PaymentStatusBanner({
-  status,
-  onDismiss,
-}: {
-  status: "verifying" | "success" | "failed";
-  onDismiss: () => void;
-}) {
-  const styles = {
-    verifying: "bg-[#21002c] text-white border-white/20",
-    success: "bg-[#ab00e4] text-white border-white/20",
-    failed: "bg-red-600 text-white border-white/20",
-  }[status];
-  const message = {
-    verifying: "Verifying your payment with Paystack…",
-    success:
-      "💜 Payment confirmed. Thank you for supporting YET Conference 2026!",
-    failed:
-      "We couldn't verify that payment. If you were charged, please contact us.",
-  }[status];
-  return (
-    <div
-      className={`fixed top-[20px] w-[90vw] md:w-auto left-1/2 -translate-x-1/2 z-[60] px-4 md:px-[20px] py-[14px] rounded-[16px] md:rounded-full border ${styles} font-['Nunito_Sans',sans-serif] font-black text-[10px] md:text-[12px] tracking-[2px] uppercase shadow-[0_10px_30px_rgba(0,0,0,0.3)] flex items-center justify-between gap-[16px]`}
-    >
-      <span>{message}</span>
-      {status !== "verifying" && (
-        <button onClick={onDismiss} className="opacity-70 hover:opacity-100">
-          ×
-        </button>
-      )}
-    </div>
-  );
-}
-
 export default function ConferencePage({ onHome }: { onHome: () => void }) {
-  const [paymentStatus, setPaymentStatus] = useState<
-    "verifying" | "success" | "failed" | null
-  >(null);
-  const [showSupportModal, setShowSupportModal] = useState(false);
-  const [supportAmount, setSupportAmount] = useState<number>(5000);
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const ref = params.get("reference") ?? params.get("trxref");
-    if (!ref) return;
-    setPaymentStatus("verifying");
-    verifyPaystack(ref)
-      .then((res) => setPaymentStatus(res.success ? "success" : "failed"))
-      .catch((err) => {
-        console.error("Verify error:", err);
-        setPaymentStatus("failed");
-      })
-      .finally(() => {
-        const url = new URL(window.location.href);
-        url.searchParams.delete("reference");
-        url.searchParams.delete("trxref");
-        window.history.replaceState({}, "", url.toString());
-      });
-  }, []);
-
   const scrollToRegister = () => {
     document
       .getElementById("register")
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
-  const scrollToSupport = () => {
-    document
-      .getElementById("support")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
-  const handleSupport = async (registrationId: string, amount?: number) => {
-    if (amount) setSupportAmount(amount);
-    setShowSupportModal(true);
-  };
 
   return (
     <div className="bg-[#21002c] min-h-screen w-full">
+      <SEO
+        title="YET Conference 2026 | Be-New YET"
+        description="A 3-day gathering for worship, transformation, purpose, fellowship, and genuine encounters with God."
+        type="event"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "Event",
+          name: "YET Conference 2026",
+          description:
+            "A 3-day gathering for worship, transformation, purpose, fellowship, and genuine encounters with God.",
+          startDate: "2026-08-01T09:00:00+01:00",
+          endDate: "2026-08-03T18:00:00+01:00",
+          eventAttendanceMode: "https://schema.org/MixedEventAttendanceMode",
+          eventStatus: "https://schema.org/EventScheduled",
+          location: {
+            "@type": "Place",
+            name: "Int. Hqt's Zion City Camp Ground",
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: "Ago-Tente Abeokuta Rd",
+              addressLocality: "Ibadan",
+              addressRegion: "Oyo State",
+              addressCountry: "NG",
+            },
+          },
+          organizer: {
+            "@type": "Organization",
+            name: "Be-New in Christ Evangelical Church (YET)",
+            url: "https://benewyouth.org",
+          },
+        }}
+      />
       <NavBar />
       <Hero onRegister={scrollToRegister} />
       <EventDetails />
       <AboutConference />
       <WhyRegister />
-      <RegistrationForm onSupport={handleSupport} />
-      <SupportSection
-        onSupport={(amount) => {
-          if (amount) setSupportAmount(amount);
-          setShowSupportModal(true);
-        }}
-        onSkip={scrollToRegister}
-      />
+      <RegistrationForm />
       <Experience />
       <Faq />
       <FinalCta onRegister={scrollToRegister} />
       <Footer />
-      {paymentStatus && (
-        <PaymentStatusBanner
-          status={paymentStatus}
-          onDismiss={() => setPaymentStatus(null)}
-        />
-      )}
-      {showSupportModal && (
-        <SupportModal
-          amount={supportAmount}
-          onClose={() => setShowSupportModal(false)}
-        />
-      )}
     </div>
   );
 }

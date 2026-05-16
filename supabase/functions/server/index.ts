@@ -79,7 +79,6 @@ function confirmationEmailHtml(name: string): string {
           <p style="margin: 0 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #7a6681; font-weight: bold;">What's Next?</p>
           <p style="margin: 0; font-size: 15px; line-height: 24px; color: #4d3356;">We'll be reaching out soon with the exact conference dates, detailed schedule, and accommodation information.</p>
         </div>
-        <p style="margin: 0 0 32px; font-size: 15px; line-height: 24px; color: #7a6681;">If you would like to make the optional <strong>₦5,000</strong> contribution to support the conference logistics, you can do so at any time from the registration page.</p>
         <p style="margin: 0; font-size: 16px; font-weight: bold; color: #21002c;">— The BE-NEW Team</p>
       </div>
       <div style="background-color: #f9e9ff; padding: 24px; text-align: center;">

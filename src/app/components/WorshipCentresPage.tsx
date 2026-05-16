@@ -3,6 +3,7 @@ import { Plus, Minus, MapPin } from "lucide-react";
 import imgHeroBg from "../../imports/MacBookPro141/WhatsApp Image 2026-05-12 at 7.28.11 PM.jpeg";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
+import SEO from "./SEO";
 
 const centres = [
   {
@@ -150,6 +151,10 @@ export default function WorshipCentresPage({ onHome }: { onHome: () => void }) {
 
   return (
     <div className="bg-[#21002c] min-h-screen w-full font-['Nunito_Sans',sans-serif]">
+      <SEO 
+        title="Our Worship Centres | Be-New YET" 
+        description="Find a Be-New YET assembly closest to you and connect with our family for impactful worship and genuine fellowship." 
+      />
       <NavBar />
 
       {/* Hero Section */}

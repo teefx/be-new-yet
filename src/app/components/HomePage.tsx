@@ -23,6 +23,7 @@ import Footer from "./Footer";
 import NavBar from "./NavBar";
 import { LiquidButton } from "./ui/liquid-button";
 import { createPortal } from "react-dom";
+import SEO from "./SEO";
 
 const worshipCentres = [
   { img: imgIbadan, city: "Ibadan", detail: "23 centres" },
@@ -67,6 +68,26 @@ const beliefs = [
 export default function HomePage() {
   return (
     <div className="w-full min-h-screen bg-[#21002c] font-['Nunito_Sans',sans-serif]">
+      <SEO
+        title="Be-New YET | A Youth Community Rooted in Christ"
+        description="A Youth Community Rooted in Christ, Built for Purpose. Raising young people who boldly reflect Christ and Evangelize the gospel."
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "Church",
+          name: "Be-New in Christ Evangelical Church (YET)",
+          description:
+            "A Youth Community Rooted in Christ, Built for Purpose. Raising young people who boldly reflect Christ and Evangelize the gospel.",
+          url: "https://benewyouth.org",
+          logo: "https://benewyouth.org/logo.png",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "Ago-Tente Area",
+            addressLocality: "Ibadan",
+            addressRegion: "Oyo State",
+            addressCountry: "NG",
+          },
+        }}
+      />
       <NavBar />
 
       {/* Hero */}
@@ -96,18 +117,19 @@ export default function HomePage() {
             >
               Watch Live
             </LiquidButton>
-            <LiquidButton
-              onClick={() => (window.location.href = "/conference")}
-              className="border border-white text-white font-['Nunito_Sans',sans-serif] font-black px-8 py-[14px] rounded-full text-[12px] tracking-[3px] uppercase transition"
-              style={
-                {
-                  "--liquid-button-background-color": "white",
-                  "--liquid-button-color": "#21002c",
-                } as React.CSSProperties
-              }
-            >
-              Register for Conference
-            </LiquidButton>
+            <a href="/conference" className="inline-block">
+              <LiquidButton
+                className="border border-white text-white font-['Nunito_Sans',sans-serif] font-black px-8 py-[14px] rounded-full text-[12px] tracking-[3px] uppercase transition"
+                style={
+                  {
+                    "--liquid-button-background-color": "white",
+                    "--liquid-button-color": "#21002c",
+                  } as React.CSSProperties
+                }
+              >
+                Register for Conference
+              </LiquidButton>
+            </a>
           </div>
         </div>
       </section>
@@ -117,7 +139,7 @@ export default function HomePage() {
         <div className="max-w-[1280px] mx-auto flex flex-col gap-[48px] md:gap-[64px]">
           <div className="w-full relative rounded-[24px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.1)] h-[300px] md:h-[575px]">
             <img
-              alt=""
+              alt="Vibrant youth worship session at Be-New YET"
               className="absolute inset-0 w-full h-full object-cover pointer-events-none"
               src={imgRectangle4}
             />
@@ -253,7 +275,7 @@ export default function HomePage() {
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <img
             src={imgBackground}
-            alt="Background"
+            alt=""
             className="w-full h-full object-cover opacity-50"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/50 to-black/90" />
@@ -285,7 +307,7 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-[rgba(171,0,228,0.1)] pointer-events-none" />
             <img
               src={imgSection}
-              alt="Texture"
+              alt=""
               className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none mix-blend-overlay"
             />
             <div className="relative z-10">
@@ -323,18 +345,19 @@ export default function HomePage() {
           <p className="font-['Nunito_Sans',sans-serif] text-white/80 text-[20px] mb-8">
             Find your place in the family.
           </p>
-          <LiquidButton
-            onClick={() => (window.location.href = "/worship-centres")}
-            className="inline-flex border border-white text-white px-[17px] py-[11px] rounded-[20px] font-['Nunito_Sans',sans-serif] font-black text-[10px] tracking-[2px] uppercase transition-colors mb-16"
-            style={
-              {
-                "--liquid-button-background-color": "white",
-                "--liquid-button-color": "#040005",
-              } as React.CSSProperties
-            }
-          >
-            See All Worship Centres
-          </LiquidButton>
+          <a href="/worship-centres" className="inline-block mb-16">
+            <LiquidButton
+              className="inline-flex border border-white text-white px-[17px] py-[11px] rounded-[20px] font-['Nunito_Sans',sans-serif] font-black text-[10px] tracking-[2px] uppercase transition-colors"
+              style={
+                {
+                  "--liquid-button-background-color": "white",
+                  "--liquid-button-color": "#040005",
+                } as React.CSSProperties
+              }
+            >
+              See All Worship Centres
+            </LiquidButton>
+          </a>
 
           <div className="w-full flex overflow-x-auto lg:overflow-visible lg:flex-wrap lg:justify-center snap-x lg:snap-none snap-mandatory gap-6 pb-8 hide-scrollbar">
             {worshipCentres.map((c, i) => {
@@ -382,7 +405,7 @@ export default function HomePage() {
           <div className="relative max-w-[640px] w-full justify-self-center lg:justify-self-start">
             <img
               src={imgPastor}
-              alt="Pastor"
+              alt="Apostle Dr. Philips Adebimpe Alimi, General Overseer of Be-New in Christ Evang. Church"
               className="w-full h-auto object-contain"
             />
             <div
@@ -396,7 +419,7 @@ export default function HomePage() {
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left text-white max-w-[444px] mx-auto lg:mx-0">
             <img
               src={imgBnLogo1}
-              alt="Logo"
+              alt="Be-New in Christ YET Logo"
               className="h-8 md:h-[32px] mb-6 opacity-80 object-contain"
             />
             <h2 className="font-['Nunito_Sans',sans-serif] font-black text-[24px] tracking-[4.8px] uppercase mb-6">
@@ -445,18 +468,19 @@ export default function HomePage() {
               Your generosity keeps blessing lives, thank you for giving.
             </p>
             <div className="flex flex-col sm:flex-row gap-[10px] w-full sm:w-auto">
-              <LiquidButton
-                onClick={() => (window.location.href = "/give")}
-                className="inline-flex items-center justify-center bg-white text-black px-[20px] py-[10.5px] rounded-full font-['Nunito_Sans',sans-serif] font-black text-[12px] uppercase tracking-[3px] transition-colors"
-                style={
-                  {
-                    "--liquid-button-background-color": "#f3f4f6",
-                    "--liquid-button-color": "black",
-                  } as React.CSSProperties
-                }
-              >
-                Give Now
-              </LiquidButton>
+              <a href="/give" className="inline-block">
+                <LiquidButton
+                  className="inline-flex items-center justify-center bg-white text-black px-[20px] py-[10.5px] rounded-full font-['Nunito_Sans',sans-serif] font-black text-[12px] uppercase tracking-[3px] transition-colors"
+                  style={
+                    {
+                      "--liquid-button-background-color": "#f3f4f6",
+                      "--liquid-button-color": "black",
+                    } as React.CSSProperties
+                  }
+                >
+                  Give Now
+                </LiquidButton>
+              </a>
               <LiquidButton
                 className="bg-[#ab00e4] text-white px-[20px] py-[10.5px] rounded-full font-['Nunito_Sans',sans-serif] font-black text-[12px] uppercase tracking-[3px] transition-colors"
                 style={
@@ -474,7 +498,7 @@ export default function HomePage() {
             <div className="relative md:absolute inset-0 overflow-hidden flex justify-center md:block">
               <img
                 src={imgImage1}
-                alt="Give"
+                alt="Church members generously giving and participating in church building"
                 className="h-full object-cover md:absolute md:left-[41.82%] md:w-[58.18%] md:max-w-none md:top-0"
               />
             </div>
@@ -486,22 +510,27 @@ export default function HomePage() {
 
       {typeof document !== "undefined" &&
         createPortal(
-          <LiquidButton
-            onClick={() => (window.location.href = "/conference")}
-            className="fixed bottom-8 right-6 z-[9999] px-[20px] h-[48px] rounded-full bg-[#ab00e4] text-white font-['Lato:Black',sans-serif] text-[11px] tracking-[3px] uppercase shadow-[0_8px_24px_rgba(171,0,228,0.4)] transition-colors border border-transparent cursor-pointer"
-            style={
-              {
-                position: "fixed",
-                bottom: "32px",
-                right: "24px",
-                left: "auto",
-                "--liquid-button-background-color": "#21002c",
-                "--liquid-button-color": "white",
-              } as React.CSSProperties
-            }
+          <a
+            href="/conference"
+            style={{
+              position: "fixed",
+              bottom: "32px",
+              right: "24px",
+              zIndex: 9999,
+            }}
           >
-            YET Conference 2026 →
-          </LiquidButton>,
+            <LiquidButton
+              className="px-[20px] h-[48px] rounded-full bg-[#ab00e4] text-white font-['Lato:Black',sans-serif] text-[11px] tracking-[3px] uppercase shadow-[0_8px_24px_rgba(171,0,228,0.4)] transition-colors border border-transparent cursor-pointer"
+              style={
+                {
+                  "--liquid-button-background-color": "#21002c",
+                  "--liquid-button-color": "white",
+                } as React.CSSProperties
+              }
+            >
+              YET Conference 2026 →
+            </LiquidButton>
+          </a>,
           document.body,
         )}
     </div>
